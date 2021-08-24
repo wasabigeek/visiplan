@@ -30,3 +30,7 @@ The idea is to provide something in-between the rigidity of proprietary solution
 - "Components" (a more specific term would be preferred)
     - takes inputs (e.g. forms or other entries - for example, CPF saved can be based on salary in that month)
     - outputs Entries, which are used to build the projection visualisations
+
+# FAQ
+Q: Why is this called VisiPlan?
+A: Somewhat ironically, an ode to the first popular spreadsheet software, VisiCalc. I think the feeling of power and flexibility is something important to recreate.
