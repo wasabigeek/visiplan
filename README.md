@@ -14,6 +14,11 @@ The idea is to provide something in-between the rigidity of proprietary solution
 - Spreadsheet
     - powerful - I can create my own "algorithms" for estimating and calculating
     - tedious - since planning is done over long periods (e.g. 30 - 60 years), it can be pretty tedious to do the calculations
+    - https://www.cflee.com/posts/two-years-3-fund-portfolio/
+
+To investigate:
+- https://www.goalsmapper.com/gmplanner/
+- https://www.upplan.sg/
 
 # Principles
 1. Platform - users and devs should have the tools to build components and extend the platform in ways we couldn’t imagine (e.g. create new blocks, connect blocks, insert and extract data via APIs)
@@ -33,4 +38,4 @@ The idea is to provide something in-between the rigidity of proprietary solution
 
 # FAQ
 Q: Why is this called VisiPlan?
-A: Somewhat ironically, an ode to the first popular spreadsheet software, VisiCalc. I think the feeling of power and flexibility is something important to recreate.
+A: Somewhat ironically, an ode to the first popular spreadsheet software, VisiCalc. I think the feeling of power and flexibility is something important to recreate. This is a working title, seeing as other software has already taken the name :D
