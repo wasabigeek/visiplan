@@ -18,22 +18,26 @@ const calculateSimpleCpfContribution = (options) => {
   const ORDINARY_RATE = 0.23;
   const SPECIAL_RATE = 0.06;
   const MEDISAVE_RATE = 0.08;
+  // Ordinary Wage ceiling is 6000
+  // https://www.cpf.gov.sg//Employers/EmployerGuides/employer-guides/hiring-employees/cpf-contributions-for-your-employees#Item592
+  const baseYearlyIncome = Math.min(monthlyIncome, 6000) * 12;
 
   const age = startDate.getFullYear() - birthDate.getFullYear();
   const remainingYears = retirementAge - age;
 
   let cpfEntries = [];
   for (let i = 0; i < remainingYears; i++) {
-    cpfEntries.push(new Entry({ year: startDate.getFullYear() + i, amount: monthlyIncome * ORDINARY_RATE, category: 'cpf_oa' }));
-    cpfEntries.push(new Entry({ year: startDate.getFullYear() + i, amount: monthlyIncome * SPECIAL_RATE, category: 'cpf_sa' }));
-    cpfEntries.push(new Entry({ year: startDate.getFullYear() + i, amount: monthlyIncome * MEDISAVE_RATE, category: 'cpf_ma' }));
+    cpfEntries.push(new Entry({ year: startDate.getFullYear() + i, amount: baseYearlyIncome * ORDINARY_RATE, category: 'cpf_oa' }));
+    cpfEntries.push(new Entry({ year: startDate.getFullYear() + i, amount: baseYearlyIncome * SPECIAL_RATE, category: 'cpf_sa' }));
+    cpfEntries.push(new Entry({ year: startDate.getFullYear() + i, amount: baseYearlyIncome * MEDISAVE_RATE, category: 'cpf_ma' }));
   }
 
   return cpfEntries;
 }
 
 // Interest Calculations
-const calculateCpfInterest = (entries) => {
+// TODO: can still obtain interest after retirement, etc.
+const calculateSimpleCpfInterest = (entries) => {
   let cpfInterestEntries = [];
 
   // assumed sorted by year, one entry per year
@@ -81,9 +85,10 @@ let entries = [
   new Entry({ year: 2021, amount: 35000, category: 'cpf_sa' }),
   new Entry({ year: 2021, amount: 35000, category: 'cpf_ma' })
 ]
-const CURRENT_INCOME = 4500;
+const CURRENT_INCOME = 10000;
 entries = entries.concat(calculateSimpleCpfContribution({ monthlyIncome: CURRENT_INCOME, birthDate: new Date('01/01/1987'), startDate: new Date('01/01/2021'), retirementAge: 65 }));
-entries = entries.concat(calculateCpfInterest(entries));
+// console.log(entries);
+entries = entries.concat(calculateSimpleCpfInterest(entries));
 
 // aggregate the data
 console.log(entries.reduce((acc, entry) => {
