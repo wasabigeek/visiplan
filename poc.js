@@ -52,7 +52,7 @@ const calculateSimpleCpfInterest = (entries) => {
     }, 0);
 
   entries
-        .filter(entry => entry.category === 'cpf_sa')
+    .filter(entry => entry.category === 'cpf_sa')
     .reduce((accCpf, entry) => {
       accCpf += entry.amount;
       const interest = accCpf * 0.04;
