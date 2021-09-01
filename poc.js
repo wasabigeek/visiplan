@@ -37,10 +37,11 @@ const calculateSimpleCpfContribution = (options) => {
 
 // Interest Calculations
 // TODO: interest rate varies depending on age
-const calculateSimpleCpfInterest = (entries) => {
-  const cpfOa = new Entry({ year: 2021, amount: 100000, category: 'cpf_oa' });
-  const cpfSa = new Entry({ year: 2021, amount: 35000, category: 'cpf_sa' });
-  const cpfMa = new Entry({ year: 2021, amount: 35000, category: 'cpf_ma' });
+const calculateSimpleCpfInterest = (entries, options) => {
+  const { currentYear } = options;
+  const cpfOa = new Entry({ year: currentYear, amount: 0, category: 'cpf_oa' });
+  const cpfSa = new Entry({ year: currentYear, amount: 0, category: 'cpf_sa' });
+  const cpfMa = new Entry({ year: currentYear, amount: 0, category: 'cpf_ma' });
 
   entries
     .forEach(entry => {
@@ -54,6 +55,18 @@ const calculateSimpleCpfInterest = (entries) => {
     });
 
   return [cpfOa, cpfSa, cpfMa];
+}
+
+const calculateSimpleRetirementCpfWithdrawal = (options) => {
+  const { currentYear, retirementAge = 65 } = options;
+
+  if (currentYear >= retirementAge) {
+    return [
+      new Entry({ year: currentYear, amount: -24000, category: 'cpf_sa' })
+    ];
+  }
+
+  return [];
 }
 
 // TODO:
@@ -78,8 +91,9 @@ while (remainingYears > 0) {
   entries = entries.concat(
     calculateSimpleCpfContribution({ monthlyIncome: CURRENT_INCOME, currentAge, currentYear })
   )
+  entries = entries.concat(calculateSimpleRetirementCpfWithdrawal({ currentYear }))
   // calculate interest transactions
-  entries = entries.concat(calculateSimpleCpfInterest(entries));
+  entries = entries.concat(calculateSimpleCpfInterest(entries, { currentYear }));
 
   currentAge++;
   currentYear++;
