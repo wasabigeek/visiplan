@@ -34,12 +34,12 @@ export class CpfComponent {
     this.config = config;
   }
 
-  apply_yearly_updates() {
+  apply_monthly_updates() {
     const cpfOa = this.accountStore.get('cpf_oa');
     cpfOa.add_entry(calculateMonthlyCpfOaContribution(this.config.age, this.config.income));
   }
 
-  apply_yearly_interest() {
+  apply_monthly_interest() {
     getCpfInterest({ accountStore: this.accountStore })
   }
 }
