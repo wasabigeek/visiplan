@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "An open personal finance planning tool",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "test"
   },
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/wasabigeek/visiplan/issues"
   },
-  "homepage": "https://github.com/wasabigeek/visiplan#readme"
+  "homepage": "https://github.com/wasabigeek/visiplan#readme",
+  "devDependencies": {
+    "jest": "^27.1.0"
+  }
 }
