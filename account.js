@@ -20,6 +20,12 @@ class Account {
   add_entry({ amount, dateTime }) {
     this.entries.push(new Entry(amount, dateTime));
   }
+
+  add_entries(entries) {
+    entries.forEach(({ amount, dateTime }) => {
+      this.entries.push(new Entry(amount, dateTime));
+    })
+  }
 }
 
 export class AccountStore {

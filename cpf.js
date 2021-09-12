@@ -1,4 +1,4 @@
-const getCpfContribution = () => {
+const calculateCpfOaContributions = (age, income) => {
   return [{ amount: 10, dateTime: new Date() }]
 }
 
@@ -7,16 +7,14 @@ const getCpfInterest = ({ accountStore }) => {
 }
 
 export class CpfComponent {
-  constructor(accountStore) {
+  constructor(accountStore, config) {
     this.accountStore = accountStore;
+    this.config = config;
   }
 
   apply_yearly_updates() {
-    const entries = getCpfContribution();
     const cpfOa = this.accountStore.get('cpf_oa');
-    entries.forEach((entry) => {
-      cpfOa.add_entry(entry)
-    })
+    cpfOa.add_entries(calculateCpfOaContributions(this.config.age, this.config.income));
   }
 
   apply_yearly_interest() {
