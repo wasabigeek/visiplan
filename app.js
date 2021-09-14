@@ -1,5 +1,5 @@
 import { AccountStore } from "./account.js";
-import { CpfComponent } from "./cpf.js";
+import { CpfComponent } from "./cpf/index.js";
 
 const accountStore = new AccountStore(); // pass in person?
 // TODO: should pass in DOB instead
