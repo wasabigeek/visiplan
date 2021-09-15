@@ -1,3 +1,4 @@
+import BaseSim from "../BaseSim.js";
 import { calculateOaContribution } from "./calculateOaContribution.js";
 import { calculateTotalCpfContribution } from "./calculateTotalCpfContribution.js";
 
@@ -5,12 +6,7 @@ const getCpfInterest = ({ accountStore }) => {
 
 }
 
-export class CpfComponent {
-  constructor(accountStore, config) {
-    this.accountStore = accountStore;
-    this.config = config;
-  }
-
+export class CpfComponent extends BaseSim {
   apply_monthly_updates(options) {
     const { monthStart } = options;
 

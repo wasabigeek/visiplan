@@ -7,18 +7,28 @@ const accountStore = new AccountStore(); // pass in person?
 const cpfComponent = new CpfComponent(accountStore, { age: 35, income: 5000 })
 const simpleInvestmentComponent = new SimpleInvestmentComponent(accountStore, { monthly_deposit: 1000, per_annum_interest_rate: 0.06 })
 
+const components = [
+  cpfComponent,
+  simpleInvestmentComponent,
+]
+
 for (let year = 2021; year <= 2021; year++) {
   for (let month = 0; month <= 11; month++) {
-    const monthStart = new Date(year, month)
-    // pass in year and month
-    cpfComponent.apply_monthly_updates({ monthStart });
-    // pass in year and month
-    // refactor to await: must wait for yearly updates to be applied first
-    cpfComponent.apply_monthly_interest({ monthStart });
+    const monthStart = new Date(year, month);
+    components.forEach((component) => {
+      component.apply_monthly_updates({ monthStart });
+    });
+    components.forEach((component) => {
+      component.apply_monthly_interest({ monthStart });
+    });
   }
-  const yearStart = new Date(year, 0)
-  simpleInvestmentComponent.apply_yearly_updates({ yearStart });
-  simpleInvestmentComponent.apply_yearly_interest({ yearStart });
+  const yearStart = new Date(year, 0);
+  components.forEach((component) => {
+    component.apply_yearly_updates({ yearStart });
+  });
+  components.forEach((component) => {
+    component.apply_yearly_interest({ yearStart });
+  });
 }
 
 console.log(accountStore.get('cpf_oa').current_balance());

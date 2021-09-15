@@ -1,9 +1,6 @@
-export class SimpleInvestmentComponent {
-  constructor(accountStore, config) {
-    this.accountStore = accountStore;
-    this.config = config;
-  }
+import BaseSim from "./BaseSim.js";
 
+export class SimpleInvestmentComponent extends BaseSim {
   apply_yearly_updates({ yearStart }) {
     const { monthly_deposit } = this.config;
 
