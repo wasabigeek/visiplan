@@ -20,5 +20,5 @@ export const calculateOaContribution = (age, totalCpfContribution) => {
   } else {
     contribution = 0.6217 * totalCpfContribution;
   }
-  return { amount: roundMoney(contribution), dateTime: new Date() };
+  return roundMoney(contribution);
 };

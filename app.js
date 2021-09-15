@@ -8,12 +8,13 @@ const cpfComponent = new CpfComponent(accountStore, { age: 35, income: 5000 })
 const simpleInvestmentComponent = new SimpleInvestmentComponent(accountStore, { monthly_deposit: 1000, per_annum_interest_rate: 0.06 })
 
 for (let year = 2021; year <= 2021; year++) {
-  for (let month = 1; month <= 12; month++) {
+  for (let month = 0; month <= 11; month++) {
+    const monthStart = new Date(year, month)
     // pass in year and month
-    cpfComponent.apply_monthly_updates();
+    cpfComponent.apply_monthly_updates({ monthStart });
     // pass in year and month
     // refactor to await: must wait for yearly updates to be applied first
-    cpfComponent.apply_monthly_interest();
+    cpfComponent.apply_monthly_interest({ monthStart });
   }
   simpleInvestmentComponent.apply_yearly_updates();
   simpleInvestmentComponent.apply_yearly_interest();
