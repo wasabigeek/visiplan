@@ -1,6 +1,6 @@
 import BaseSim from "./BaseSim.js";
 
-export class SimpleInvestmentComponent extends BaseSim {
+export class SimpleInvestmentSim extends BaseSim {
   apply_yearly_updates({ yearStart }) {
     const { monthly_deposit } = this.config;
 

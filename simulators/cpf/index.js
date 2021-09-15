@@ -6,7 +6,7 @@ const getCpfInterest = ({ accountStore }) => {
 
 }
 
-export class CpfComponent extends BaseSim {
+export class CpfSim extends BaseSim {
   apply_monthly_updates(options) {
     const { monthStart } = options;
 
