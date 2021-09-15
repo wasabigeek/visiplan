@@ -4,18 +4,18 @@ export class SimpleInvestmentComponent {
     this.config = config;
   }
 
-  apply_yearly_updates() {
+  apply_yearly_updates({ yearStart }) {
     const { monthly_deposit } = this.config;
 
     const investmentAccount = this.accountStore.get('simple_investments');
 
     investmentAccount.add_entry({
       amount: monthly_deposit * 12,
-      dateTime: new Date()
+      dateTime: yearStart
     });
   }
 
-  apply_yearly_interest() {
+  apply_yearly_interest({ yearStart }) {
     const { per_annum_interest_rate } = this.config;
 
     const investmentAccount = this.accountStore.get('simple_investments');
@@ -23,7 +23,7 @@ export class SimpleInvestmentComponent {
 
     investmentAccount.add_entry({
       amount: interest,
-      dateTime: new Date()
+      dateTime: yearStart
     });
 
   }

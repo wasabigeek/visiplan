@@ -16,10 +16,12 @@ for (let year = 2021; year <= 2021; year++) {
     // refactor to await: must wait for yearly updates to be applied first
     cpfComponent.apply_monthly_interest({ monthStart });
   }
-  simpleInvestmentComponent.apply_yearly_updates();
-  simpleInvestmentComponent.apply_yearly_interest();
+  const yearStart = new Date(year, 0)
+  simpleInvestmentComponent.apply_yearly_updates({ yearStart });
+  simpleInvestmentComponent.apply_yearly_interest({ yearStart });
 }
 
 console.log(accountStore.get('cpf_oa').current_balance());
 console.log(accountStore.get('simple_investments').current_balance());
+console.log(accountStore.get('cpf_oa').entries)
 console.log(accountStore.get('simple_investments').entries)
