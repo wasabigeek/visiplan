@@ -8,16 +8,17 @@ const getCpfInterest = ({ accountStore }) => {
 
 export class CpfSim extends BaseSim {
   apply_monthly_updates(options) {
+    const { accountStore } = this.baseConfig;
     const { monthStart } = options;
 
-    const cpfOa = this.accountStore.get('cpf_oa');
+    const cpfOa = accountStore.get('cpf_oa');
     const totalCpfContribution = calculateTotalCpfContribution({
-      age: this.config.age,
-      ordinary_wages: this.config.income
+      age: this.userConfig.age,
+      ordinary_wages: this.userConfig.income
     });
     cpfOa.add_entry({
       amount: calculateOaContribution(
-        this.config.age, // should be derived
+        this.userConfig.age, // should be derived
         totalCpfContribution
       ),
       dateTime: monthStart
@@ -26,6 +27,8 @@ export class CpfSim extends BaseSim {
   }
 
   apply_monthly_interest() {
-    getCpfInterest({ accountStore: this.accountStore })
+    const { accountStore } = this.baseConfig;
+
+    getCpfInterest({ accountStore })
   }
 }

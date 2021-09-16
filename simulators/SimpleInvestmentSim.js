@@ -2,9 +2,10 @@ import BaseSim from "./BaseSim.js";
 
 export class SimpleInvestmentSim extends BaseSim {
   apply_yearly_updates({ yearStart }) {
-    const { monthly_deposit } = this.config;
+    const { accountStore } = this.baseConfig;
+    const { monthly_deposit } = this.userConfig;
 
-    const investmentAccount = this.accountStore.get('simple_investments');
+    const investmentAccount = accountStore.get('simple_investments');
 
     investmentAccount.add_entry({
       amount: monthly_deposit * 12,
@@ -13,9 +14,10 @@ export class SimpleInvestmentSim extends BaseSim {
   }
 
   apply_yearly_interest({ yearStart }) {
-    const { per_annum_interest_rate } = this.config;
+    const { accountStore } = this.baseConfig;
+    const { per_annum_interest_rate } = this.userConfig;
 
-    const investmentAccount = this.accountStore.get('simple_investments');
+    const investmentAccount = accountStore.get('simple_investments');
     const interest = investmentAccount.current_balance() * per_annum_interest_rate;
 
     investmentAccount.add_entry({
