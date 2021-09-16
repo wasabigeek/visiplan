@@ -4,8 +4,8 @@ import { SimpleInvestmentSim } from "./simulators/SimpleInvestmentSim.js";
 
 const accountStore = new AccountStore(); // pass in person?
 // TODO: should pass in DOB instead
-const cpfSim = new CpfSim(accountStore, { age: 35, income: 5000 })
-const simpleInvestmentSim = new SimpleInvestmentSim(accountStore, { monthly_deposit: 1000, per_annum_interest_rate: 0.06 })
+const cpfSim = new CpfSim({ accountStore }, { age: 35, income: 5000 })
+const simpleInvestmentSim = new SimpleInvestmentSim({ accountStore }, { monthly_deposit: 1000, per_annum_interest_rate: 0.06 })
 
 const simulators = [
   cpfSim,

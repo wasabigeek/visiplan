@@ -1,7 +1,7 @@
 export default class BaseSim {
-  constructor(accountStore, config) {
-    this.accountStore = accountStore;
-    this.config = config;
+  constructor(baseConfig, userConfig) {
+    this.accountStore = baseConfig.accountStore
+    this.config = userConfig;
   }
 
   apply_monthly_updates() {
