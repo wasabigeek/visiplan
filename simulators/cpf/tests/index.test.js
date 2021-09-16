@@ -1,10 +1,13 @@
 import { CpfSim } from "../index.js";
 import { AccountStore } from "../../../account.js"; // TODO: mock
+import Person from "../../../person.js";
 
 // Naive Integration Tests
 test('it calculates CPF OA correctly', () => {
   const accountStore = new AccountStore();
-  const cpfSim = new CpfSim({ accountStore }, { age: 35, income: 5000 });
+  const person = new Person(new Date(1987, 0, 1));
+
+  const cpfSim = new CpfSim({ accountStore, person }, { income: 5000 });
 
   cpfSim.apply_monthly_updates({ monthStart: new Date(2022, 7, 14) });
 
@@ -13,7 +16,9 @@ test('it calculates CPF OA correctly', () => {
 });
 test('it generates OA entries with the correct date', () => {
   const accountStore = new AccountStore();
-  const cpfSim = new CpfSim({ accountStore }, { age: 35, income: 5000 });
+  const person = new Person(new Date(1987, 0, 1));
+
+  const cpfSim = new CpfSim({ accountStore, person }, { income: 5000 });
 
   cpfSim.apply_monthly_updates({ monthStart: new Date(2022, 7, 14) });
 

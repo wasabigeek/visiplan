@@ -1,11 +1,13 @@
 import { AccountStore } from "./account.js";
+import Person from "./person.js";
 import { CpfSim } from "./simulators/cpf/index.js";
 import { SimpleInvestmentSim } from "./simulators/SimpleInvestmentSim.js";
 
-const accountStore = new AccountStore(); // pass in person?
-// TODO: should pass in DOB instead
-const cpfSim = new CpfSim({ accountStore }, { age: 35, income: 5000 })
-const simpleInvestmentSim = new SimpleInvestmentSim({ accountStore }, { monthly_deposit: 1000, per_annum_interest_rate: 0.06 })
+const person = new Person(new Date(2000, 5, 1));
+const accountStore = new AccountStore();
+// TODO: maybe we can "curry" as the baseConfig is pretty much fixed at this point
+const cpfSim = new CpfSim({ accountStore, person }, { income: 5000 })
+const simpleInvestmentSim = new SimpleInvestmentSim({ accountStore, person }, { monthly_deposit: 1000, per_annum_interest_rate: 0.06 })
 
 const simulators = [
   cpfSim,
