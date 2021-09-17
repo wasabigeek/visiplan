@@ -2,8 +2,12 @@ import BaseSim from "./BaseSim.js";
 
 export class SimpleInvestmentSim extends BaseSim {
   apply_yearly_updates({ yearStart }) {
-    const { accountStore } = this.baseConfig;
-    const { monthly_deposit } = this.userConfig;
+    const { accountStore, person } = this.baseConfig;
+    const { monthly_deposit, retirementAge } = this.userConfig;
+
+    if (person.age(yearStart) >= retirementAge) {
+      return;
+    }
 
     const investmentAccount = accountStore.get('simple_investments');
 
