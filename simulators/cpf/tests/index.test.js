@@ -28,4 +28,15 @@ describe('apply_monthly_updates()', () => {
       .dateTime;
     expect(dateTime.toISOString()).toBe(new Date(2022, 7, 14).toISOString());
   });
+  test("it stops increasing after a Person's retirement", () => {
+    const accountStore = new AccountStore();
+    const person = new Person(new Date(2000, 0, 1));
+
+    const cpfSim = new CpfSim({ accountStore, person }, { income: 5000, retirementAge: 50 });
+
+    cpfSim.apply_monthly_updates({ monthStart: new Date(2050, 7, 14) });
+
+    const oaBalance = accountStore.get("cpf_oa").current_balance();
+    expect(oaBalance).toBe(0);
+  });
 });

@@ -6,7 +6,7 @@ import { SimpleInvestmentSim } from "./simulators/SimpleInvestmentSim.js";
 const person = new Person(new Date(2000, 5, 1));
 const accountStore = new AccountStore();
 // TODO: maybe we can "curry" as the baseConfig is pretty much fixed at this point
-const cpfSim = new CpfSim({ accountStore, person }, { income: 5000 })
+const cpfSim = new CpfSim({ accountStore, person }, { income: 5000, retirementAge: 62 })
 const simpleInvestmentSim = new SimpleInvestmentSim({ accountStore, person }, { monthly_deposit: 1000, per_annum_interest_rate: 0.06 })
 
 const simulators = [
