@@ -1,12 +1,21 @@
 # What is this?
-A Request for Comment for an idea, also a forcing function for me to think through writing and testing in public. Very much a work in progress, feel free to dispute the methodology.
+An attempt to create an open platform for simulating personal finance scenarios.
 
-# The Dream
-What if building a personal finance projection was as simple as selecting from a library of components (e.g. CPF), but offered spreadsheet-level power for tweaking and modifying them?
+Most existing solutions, while easy to use and great for getting a quick estimate, are proprietary and generally support a few fixed scenarios with little room for customisation. Spreadsheets, on the other hand, almost always have to be built from scratch, and though powerful, are tedious to compose.
 
-The idea is to provide something in-between the rigidity of proprietary solutions and the flexibility but tedium of a spreadsheet. The platform provides a framework that abstracts things like aggregation, so components can be more focused and (hopefully) less tedious to build or tweak.
+The long-term goal would be a tool where users can select from a library of "simulator" modules (e.g. purchasing a flat, putting funds into government retirement schemes), or create their own with a low-code solution. Each simulator will be able to ask users for input via forms or a wizard, then the tool would run the calculations and generate visualisations.
 
-## Other Solutions
+Anyone or any company can contribute new simulators; and while they can build a set of input forms / wizards to allow users to tweak the simulation, a user could also locally modify the simulator to meet their specific needs.
+
+In the short-term, this will be targeted at other devs, since it's a lot more work to build a no-code solution. Currently this is more Proof of Concept, an attempt to discover the boundaries of a future framework.
+
+# Principles
+1. **Platform**: the tool should be focused on providing a framework - while we can have a batteries-included approach with default components, users should have the power to create, modify and share their own components.
+2. **Data Ownership**: users should maintain full control over their data. Ideally we never need to actually store the data in the cloud (or at most, do E2E encryption).
+3. **Open Source**: not a must-have but I feel would be aligned well with points 1 and 2.
+4. **Intuitive (Eventually)**: at some point I'd love for this to be intuitive enough for _anyone_ to use, but the initial target audience will probably be other devs.
+
+# Other Solutions
 - [CPF's Retirement Calculator](https://www.cpf.gov.sg/eSvc/Web/Schemes/RetirementCalculator/CoverPage), [DBS Nav Planner](https://www.dbs.com.sg/personal/deposits/digital-services/nav-planner), StashAway's Financial Planning Tool
     - ease of use - generally pretty good, fill up a few forms (the CPF one is super tedious though) and it will spit out a plan
     - rigid - covers the general case well, but harder to account for individual/unique situations (e.g. what if a potential goal is to migrate?)
@@ -19,28 +28,6 @@ The idea is to provide something in-between the rigidity of proprietary solution
 
 To investigate:
 - https://www.goalsmapper.com/gmplanner/
-
-# Principles
-1. **Platform**: the tool should be focused on providing a framework - while we can have a batteries-included approach with default components, users should have the power to create, modify and share their own components.
-2. **Data Ownership**: users should maintain full control over their data. Ideally we never need to actually store the data in the cloud (or at most, do E2E encryption).
-3. **Open Source**: not a must-have but I feel would be aligned well with points 1 and 2.
-4. **Accessible**: at some point I'd love for this to be intuitive enough for code and financial beginners to make use of, but the initial target audience will probably be other devs.
-
-# Architecture
-- [Local-first](https://blog.acolyer.org/2019/11/20/local-first-software/) app. Ideally also some E2E encrypted syncing platform so it could be accessed on multiple devices. To that end am intending to use JavaScript since that seems the most platform-agnostic (e.g. node, electron, react-native).
-- Far-future: Web platform for finding and listing blocks, which can be copied and modified (like iOS shortcuts).
-
-
-## The Framework (WIP)
-What we aim to abstract:
--  Aggregation (e.g. by years). Visualisation is related, but ideally we could also let users code their own visualisations?
-- ? (To-be-discovered)
-
-Systems Design:
-- “Entries” - month, amount (income/expense), actual vs estimate, categories (e.g. salary)
-- "Components" (a more specific term would be preferred)
-    - takes inputs (e.g. forms or other entries - for example, CPF saved can be based on salary in that month)
-    - outputs Entries, which are used to build the projection visualisations
 
 # FAQ
 Q: Why is this called VisiPlan?
