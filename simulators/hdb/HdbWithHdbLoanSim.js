@@ -21,7 +21,7 @@ export class HdbWithHdbLoanSim extends BaseSim {
     if (yearStart.getFullYear() == downpaymentYear) {
       // option
       cashAccount.add_entry({
-        amount: 2000,
+        amount: -2000,
         dateTime: yearStart
       });
 
