@@ -1,3 +1,5 @@
+import AsciiChart from "asciichart";
+
 import { AccountStore } from "./account.js";
 import Person from "./person.js";
 import { CpfSim } from "./simulators/cpf/index.js";
@@ -17,7 +19,7 @@ const simulators = [
   hdbSim
 ]
 
-for (let year = 2021; year <= 2022; year++) {
+for (let year = 2021; year <= 2060; year++) {
   const yearStart = new Date(year, 0);
   simulators.forEach((simulator) => {
     simulator.apply_yearly_updates({ yearStart });
@@ -38,9 +40,22 @@ for (let year = 2021; year <= 2022; year++) {
   });
 }
 
-console.log(accountStore.get('cpf_oa').current_balance());
-console.log(accountStore.get('cpf_oa').entries)
-console.log(accountStore.get('simple_investments').current_balance());
-// console.log(accountStore.get('simple_investments').entries)
-console.log(accountStore.get('cash').current_balance());
-console.log(accountStore.get('cash').entries)
+
+let iteratedYear = 2021;
+let cpfOaDataPoints = [0];
+accountStore.get('cpf_oa').entries.forEach((entry) => {
+  if (entry.dateTime.getFullYear() == iteratedYear) {
+    cpfOaDataPoints[cpfOaDataPoints.length - 1] += entry.amount;
+  } else {
+    cpfOaDataPoints.push(cpfOaDataPoints[cpfOaDataPoints.length - 1] + entry.amount)
+    iteratedYear = entry.dateTime.getFullYear();
+  }
+})
+console.log(cpfOaDataPoints)
+console.log(AsciiChart.plot(cpfOaDataPoints, { height: 5 }))
+
+// console.log(accountStore.get('cpf_oa').current_balance());
+// console.log(accountStore.get('simple_investments').current_balance());
+// // console.log(accountStore.get('simple_investments').entries)
+// console.log(accountStore.get('cash').current_balance());
+// console.log(accountStore.get('cash').entries)
