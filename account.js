@@ -26,6 +26,15 @@ class Account {
       this.entries.push(new Entry(amount, dateTime));
     })
   }
+
+  balance(dateTime) {
+    return this
+      .entries
+      .filter(entry => entry.dateTime <= dateTime)
+      .reduce((acc, entry) => {
+        return acc + entry.amount;
+      }, 0);
+  }
 }
 
 export class AccountStore {
