@@ -1,5 +1,11 @@
 import BaseSim from "../BaseSim.js";
 
+const TITLES = {
+  option: 'option',
+  downpayment: 'downpayment'
+}
+export { TITLES };
+
 export class HdbWithHdbLoanSim extends BaseSim {
   // "Inputs"
   // Flat Cost
@@ -22,7 +28,8 @@ export class HdbWithHdbLoanSim extends BaseSim {
       // option
       cashAccount.add_entry({
         amount: -2000,
-        dateTime: yearStart
+        dateTime: yearStart,
+        title: TITLES.option
       });
 
       // downpayment, assuming maximum from CPF
@@ -33,14 +40,16 @@ export class HdbWithHdbLoanSim extends BaseSim {
       const cpfUsed = Math.min(cpfOaAccount.current_balance(), downpayment);
       cpfOaAccount.add_entry({
         amount: -1 * cpfUsed,
-        dateTime: yearStart
+        dateTime: yearStart,
+        title: TITLES.downpayment
       });
 
       const cashUsed = downpayment - cpfUsed;
       if (cashUsed > 0) {
         cashAccount.add_entry({
           amount: -1 * cashUsed,
-          dateTime: yearStart
+          dateTime: yearStart,
+          title: TITLES.downpayment
         })
       }
     }

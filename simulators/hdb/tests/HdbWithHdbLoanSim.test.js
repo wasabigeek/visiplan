@@ -1,6 +1,6 @@
 import { AccountStore } from "../../../account";
 import Person from "../../../person";
-import { HdbWithHdbLoanSim } from "../HdbWithHdbLoanSim";
+import { HdbWithHdbLoanSim, TITLES } from "../HdbWithHdbLoanSim";
 
 describe('HdbWithHdbLoanSim apply_yearly_updates', () => {
   test('it adds the option cost', () => {
@@ -12,7 +12,9 @@ describe('HdbWithHdbLoanSim apply_yearly_updates', () => {
     sim.apply_yearly_updates({ yearStart: new Date(2022, 0) });
 
     const cashEntries = accountStore.get("cash").entries;
-    expect(cashEntries.find(entry => entry.amount == -2000)).toBeDefined();
+    const matchingEntry = cashEntries.find(entry => entry.title == TITLES.option)
+    expect(matchingEntry).toBeDefined();
+    expect(matchingEntry.amount).toEqual(-2000);
   });
   test('it adds the downpayment cost', () => {
     const accountStore = new AccountStore();
@@ -23,7 +25,9 @@ describe('HdbWithHdbLoanSim apply_yearly_updates', () => {
     sim.apply_yearly_updates({ yearStart: new Date(2022, 0) });
 
     const cashEntries = accountStore.get("cash").entries;
-    const matchingEntry = cashEntries.find(entry => entry.amount == -10000 && entry.dateTime.getFullYear() == 2022);
+    const matchingEntry = cashEntries.find(entry => entry.title == TITLES.downpayment)
     expect(matchingEntry).toBeDefined();
+    expect(matchingEntry.amount).toEqual(-10000);
+    expect(matchingEntry.dateTime.getFullYear()).toEqual(2022);
   });
 });
