@@ -1,7 +1,8 @@
 class Entry {
-  constructor(amount, dateTime) {
+  constructor(amount, dateTime, title) {
     this.amount = amount;
     this.dateTime = dateTime;
+    this.title = title;
   }
 }
 
@@ -17,13 +18,13 @@ class Account {
     }, 0);
   }
 
-  add_entry({ amount, dateTime }) {
-    this.entries.push(new Entry(amount, dateTime));
+  add_entry({ amount, dateTime, title = '' }) {
+    this.entries.push(new Entry(amount, dateTime, title));
   }
 
   add_entries(entries) {
-    entries.forEach(({ amount, dateTime }) => {
-      this.entries.push(new Entry(amount, dateTime));
+    entries.forEach(({ amount, dateTime, title = '' }) => {
+      this.entries.push(new Entry(amount, dateTime, title));
     })
   }
 
