@@ -1,8 +1,10 @@
 import BaseSim from "../BaseSim.js";
+import { MonthlyAmortisedLoan } from "../MonthlyAmortisedLoan.js";
 
 const TITLES = {
   option: 'option',
-  downpayment: 'downpayment'
+  downpayment: 'downpayment',
+  monthly_payment: 'monthly_payment'
 }
 export { TITLES };
 
@@ -19,7 +21,7 @@ export class HdbWithHdbLoanSim extends BaseSim {
 
   apply_yearly_updates({ yearStart }) {
     const { accountStore } = this.baseConfig;
-    const { downpaymentYear, purchasePrice } = this.userConfig;
+    const { downpaymentYear, purchasePrice, perAnnumInterestRate, loanYears, estimatedTopYear } = this.userConfig;
 
     const cashAccount = accountStore.get('cash');
     const cpfOaAccount = accountStore.get('cpf_oa');
@@ -52,6 +54,16 @@ export class HdbWithHdbLoanSim extends BaseSim {
           title: TITLES.downpayment
         })
       }
+    }
+
+    if (yearStart.getFullYear() >= estimatedTopYear) {
+      const loan = new MonthlyAmortisedLoan(purchasePrice * 0.90, perAnnumInterestRate, loanYears);
+      // TODO: handle existing CPF
+      cpfOaAccount.add_entry({
+        amount: -1 * loan.monthly_payment(),
+        dateTime: yearStart,
+        title: TITLES.monthly_payment
+      });
     }
   }
 }
