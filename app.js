@@ -11,7 +11,10 @@ const accountStore = new AccountStore();
 // TODO: maybe we can "curry" as the baseConfig is pretty much fixed at this point
 const cpfSim = new CpfSim({ accountStore, person }, { income: 5000, retirementAge: 62 })
 const simpleInvestmentSim = new SimpleInvestmentSim({ accountStore, person }, { monthlyDeposit: 1000, perAnnumInterestRate: 0.06, retirementAge: 62 })
-const hdbSim = new HdbWithHdbLoanSim({ accountStore, person }, { downpaymentYear: 2022, purchasePrice: 450000 });
+const hdbSim = new HdbWithHdbLoanSim(
+  { accountStore, person },
+  { downpaymentYear: 2022, purchasePrice: 450000, perAnnumInterestRate: 0.025, loanYears: 15, estimatedTopYear: 2026 }
+);
 
 const simulators = [
   cpfSim,
@@ -40,6 +43,7 @@ for (let year = 2021; year <= 2060; year++) {
   });
 }
 
+console.log(accountStore.get('cpf_oa').entries)
 
 // Naive Visualisation
 let dataPoints = [];

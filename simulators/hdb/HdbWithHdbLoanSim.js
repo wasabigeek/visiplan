@@ -63,7 +63,10 @@ export class HdbWithHdbLoanSim extends BaseSim {
 
     const cpfOaAccount = accountStore.get('cpf_oa');
 
-    if (monthStart.getFullYear() >= estimatedTopYear) {
+    if (
+      monthStart.getFullYear() >= estimatedTopYear &&
+      monthStart.getFullYear() <= (estimatedTopYear + loanYears)
+    ) {
       const loan = new MonthlyAmortisedLoan(purchasePrice * 0.90, perAnnumInterestRate, loanYears);
       // TODO: handle existing CPF
       cpfOaAccount.add_entry({
