@@ -21,7 +21,7 @@ export class HdbWithHdbLoanSim extends BaseSim {
 
   apply_yearly_updates({ yearStart }) {
     const { accountStore } = this.baseConfig;
-    const { downpaymentYear, purchasePrice, perAnnumInterestRate, loanYears, estimatedTopYear } = this.userConfig;
+    const { downpaymentYear, purchasePrice } = this.userConfig;
 
     const cashAccount = accountStore.get('cash');
     const cpfOaAccount = accountStore.get('cpf_oa');
@@ -55,13 +55,20 @@ export class HdbWithHdbLoanSim extends BaseSim {
         })
       }
     }
+  }
 
-    if (yearStart.getFullYear() >= estimatedTopYear) {
+  apply_monthly_updates({ monthStart }) {
+    const { accountStore } = this.baseConfig;
+    const { purchasePrice, perAnnumInterestRate, loanYears, estimatedTopYear } = this.userConfig;
+
+    const cpfOaAccount = accountStore.get('cpf_oa');
+
+    if (monthStart.getFullYear() >= estimatedTopYear) {
       const loan = new MonthlyAmortisedLoan(purchasePrice * 0.90, perAnnumInterestRate, loanYears);
       // TODO: handle existing CPF
       cpfOaAccount.add_entry({
         amount: -1 * loan.monthly_payment(),
-        dateTime: yearStart,
+        dateTime: monthStart,
         title: TITLES.monthly_payment
       });
     }
