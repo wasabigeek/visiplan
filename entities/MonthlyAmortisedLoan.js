@@ -1,4 +1,4 @@
-import { roundMoney } from "./helpers.js"
+import { roundMoney } from "../simulators/helpers.js"
 
 export class MonthlyAmortisedLoan {
   constructor(principal, perAnnumInterestRate, years) {

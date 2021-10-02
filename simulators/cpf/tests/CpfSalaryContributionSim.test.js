@@ -1,6 +1,6 @@
 
-import { AccountStore } from "../../../account.js"; // TODO: mock
-import Person from "../../../person.js";
+import { AccountStore } from "../../../entities/account.js"; // TODO: mock
+import Person from "../../../entities/person.js";
 import { CpfSalaryContributionSim, TITLES } from "../CpfSalaryContributionSim.js";
 
 describe('apply_monthly_updates()', () => {

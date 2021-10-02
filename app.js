@@ -1,7 +1,7 @@
 import AsciiChart from "asciichart";
 
-import { AccountStore } from "./account.js";
-import Person from "./person.js";
+import { AccountStore } from "./entities/account.js";
+import Person from "./entities/person.js";
 import { CpfSalaryContributionSim } from "./simulators/cpf/CpfSalaryContributionSim.js";
 import { HdbWithHdbLoanSim } from "./simulators/hdb/HdbWithHdbLoanSim.js";
 import { SimpleInvestmentSim } from "./simulators/SimpleInvestmentSim.js";

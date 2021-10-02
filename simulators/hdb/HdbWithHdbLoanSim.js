@@ -1,5 +1,5 @@
 import BaseSim from "../BaseSim.js";
-import { MonthlyAmortisedLoan } from "../MonthlyAmortisedLoan.js";
+import { MonthlyAmortisedLoan } from "../../entities/MonthlyAmortisedLoan.js";
 
 const TITLES = {
   option: 'option',

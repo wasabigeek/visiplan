@@ -1,5 +1,5 @@
-import { AccountStore } from "../../../account";
-import Person from "../../../person";
+import { AccountStore } from "../../../entities/account.js";
+import Person from "../../../entities/person.js";
 import { HdbWithHdbLoanSim, TITLES } from "../HdbWithHdbLoanSim";
 
 describe('HdbWithHdbLoanSim apply_yearly_updates', () => {
