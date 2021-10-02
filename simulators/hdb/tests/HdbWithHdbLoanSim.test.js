@@ -5,7 +5,7 @@ import { HdbWithHdbLoanSim, TITLES } from "../HdbWithHdbLoanSim";
 describe('HdbWithHdbLoanSim apply_yearly_updates', () => {
   test('it adds the option cost', () => {
     const accountStore = new AccountStore();
-    const person = new Person(new Date(1987, 0, 1));
+    const person = new Person({ birthDate: new Date(1987, 0, 1) });
 
     const sim = new HdbWithHdbLoanSim({ accountStore, person }, { downpaymentYear: 2022, purchasePrice: 100000 });
 
@@ -19,7 +19,7 @@ describe('HdbWithHdbLoanSim apply_yearly_updates', () => {
   // TODO: calculate split with CPF
   test('it adds the downpayment cost', () => {
     const accountStore = new AccountStore();
-    const person = new Person(new Date(1987, 0, 1));
+    const person = new Person({ birthDate: new Date(1987, 0, 1) });
 
     const sim = new HdbWithHdbLoanSim({ accountStore, person }, { downpaymentYear: 2022, purchasePrice: 100000 });
 
@@ -33,7 +33,7 @@ describe('HdbWithHdbLoanSim apply_yearly_updates', () => {
   });
   test('it adds monthly entries for loan repayments', () => {
     const accountStore = new AccountStore();
-    const person = new Person(new Date(1987, 0, 1));
+    const person = new Person({ birthDate: new Date(1987, 0, 1) });
 
     const sim = new HdbWithHdbLoanSim({ accountStore, person }, { downpaymentYear: 2022, purchasePrice: 144450, perAnnumInterestRate: 0.03, loanYears: 10, estimatedTopYear: 2025 });
 
@@ -47,7 +47,7 @@ describe('HdbWithHdbLoanSim apply_yearly_updates', () => {
   });
   test('it does not add an entry for loan repayment after the principal has been repaid', () => {
     const accountStore = new AccountStore();
-    const person = new Person(new Date(1987, 0, 1));
+    const person = new Person({ birthDate: new Date(1987, 0, 1) });
 
     const sim = new HdbWithHdbLoanSim({ accountStore, person }, { downpaymentYear: 2022, purchasePrice: 144450, perAnnumInterestRate: 0.03, loanYears: 10, estimatedTopYear: 2025 });
 

@@ -1,5 +1,5 @@
 export default class Person {
-  constructor(birthDate) {
+  constructor({ birthDate }) {
     this.birthDate = birthDate;
   }
 

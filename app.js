@@ -6,7 +6,7 @@ import { CpfSalaryContributionSim } from "./simulators/cpf/CpfSalaryContribution
 import { HdbWithHdbLoanSim } from "./simulators/hdb/HdbWithHdbLoanSim.js";
 import { SimpleInvestmentSim } from "./simulators/SimpleInvestmentSim.js";
 
-const person = new Person(new Date(2000, 5, 1));
+const person = new Person({ birthDate: new Date(2000, 5, 1) });
 const accountStore = new AccountStore();
 // TODO: maybe we can "curry" as the baseConfig is pretty much fixed at this point
 const cpfSalaryContributionSim = new CpfSalaryContributionSim({ accountStore, person }, { income: 5000, retirementAge: 62 })
