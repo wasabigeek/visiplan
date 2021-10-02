@@ -2,11 +2,13 @@ import AsciiChart from "asciichart";
 
 import { AccountStore } from "./entities/account.js";
 import Person from "./entities/person.js";
+import SimpleSalary from "./entities/SimpleSalary.js";
 import { CpfSalaryContributionSim } from "./simulators/cpf/CpfSalaryContributionSim.js";
 import { HdbWithHdbLoanSim } from "./simulators/hdb/HdbWithHdbLoanSim.js";
 import { SimpleInvestmentSim } from "./simulators/SimpleInvestmentSim.js";
 
-const person = new Person({ birthDate: new Date(2000, 5, 1) });
+const salarySchedule = new SimpleSalary({ startingYear: 2022, startingSalary: 5000 })
+const person = new Person({ birthDate: new Date(2000, 5, 1), salarySchedule });
 const accountStore = new AccountStore();
 // TODO: maybe we can "curry" as the baseConfig is pretty much fixed at this point
 const cpfSalaryContributionSim = new CpfSalaryContributionSim({ accountStore, person }, { income: 5000 })

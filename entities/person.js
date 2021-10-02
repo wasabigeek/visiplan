@@ -1,9 +1,10 @@
 export default class Person {
-  constructor({ birthDate, retirementAge = 65 }) {
+  constructor({ birthDate, retirementAge = 65, salarySchedule }) {
     this.birthDate = birthDate;
     // TODO: There's a distinction between target retirement age and statutory retirement age.
     // This is more the latter at the moment, should it be the former?
     this.retirementAge = retirementAge;
+    this.salarySchedule = salarySchedule;
   }
 
   age(currentDate) {
@@ -13,5 +14,9 @@ export default class Person {
 
   is_retired(currentDate) {
     return this.age(currentDate) >= this.retirementAge;
+  }
+
+  salary(currentDate) {
+    return this.salarySchedule.current(currentDate);
   }
 }
