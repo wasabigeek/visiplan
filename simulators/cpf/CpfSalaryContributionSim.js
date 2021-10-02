@@ -6,7 +6,7 @@ const getCpfInterest = ({ accountStore }) => {
 
 }
 
-export class CpfSim extends BaseSim {
+export class CpfSalaryContributionSim extends BaseSim {
   apply_monthly_updates(options) {
     const { accountStore, person } = this.baseConfig;
     const { income, retirementAge } = this.userConfig;
@@ -34,6 +34,6 @@ export class CpfSim extends BaseSim {
   apply_monthly_interest() {
     const { accountStore } = this.baseConfig;
 
-    getCpfInterest({ accountStore })
+    getCpfInterest({ accountStore });
   }
 }

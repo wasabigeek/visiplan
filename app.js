@@ -2,14 +2,14 @@ import AsciiChart from "asciichart";
 
 import { AccountStore } from "./account.js";
 import Person from "./person.js";
-import { CpfSim } from "./simulators/cpf/index.js";
+import { CpfSalaryContributionSim } from "./simulators/cpf/CpfSalaryContributionSim.js";
 import { HdbWithHdbLoanSim } from "./simulators/hdb/HdbWithHdbLoanSim.js";
 import { SimpleInvestmentSim } from "./simulators/SimpleInvestmentSim.js";
 
 const person = new Person(new Date(2000, 5, 1));
 const accountStore = new AccountStore();
 // TODO: maybe we can "curry" as the baseConfig is pretty much fixed at this point
-const cpfSim = new CpfSim({ accountStore, person }, { income: 5000, retirementAge: 62 })
+const cpfSalaryContributionSim = new CpfSalaryContributionSim({ accountStore, person }, { income: 5000, retirementAge: 62 })
 const simpleInvestmentSim = new SimpleInvestmentSim({ accountStore, person }, { monthlyDeposit: 1000, perAnnumInterestRate: 0.06, retirementAge: 62 });
 const hdbSim = new HdbWithHdbLoanSim(
   { accountStore, person },
@@ -17,7 +17,7 @@ const hdbSim = new HdbWithHdbLoanSim(
 );
 
 const simulators = [
-  cpfSim,
+  cpfSalaryContributionSim,
   simpleInvestmentSim,
   hdbSim
 ]
