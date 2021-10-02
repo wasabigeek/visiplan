@@ -36,7 +36,7 @@ export class CpfSalaryContributionSim extends BaseSim {
     const { accountStore } = this.baseConfig;
     const cpfOaAccount = accountStore.get('cpf_oa');
     cpfOaAccount.add_entry({
-      amount: roundMoney(cpfOaAccount.current_balance() * 0.025),
+      amount: roundMoney(cpfOaAccount.current_balance() * 0.025 / 12),
       dateTime: monthStart,
       title: TITLES.cpf_interest
     })

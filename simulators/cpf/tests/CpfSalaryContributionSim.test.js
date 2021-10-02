@@ -53,6 +53,6 @@ describe("apply_monthly_interest()", () => {
     cpfSim.apply_monthly_interest({ monthStart: new Date(2050, 7, 14) });
 
     const interestEntry = accountStore.get("cpf_oa").entries.find(entry => entry.title == TITLES.cpf_interest);
-    expect(interestEntry.amount).toBe(2.5);
+    expect(interestEntry.amount).toBe(0.21); // 0.025 / 12 * 100
   });
 });
