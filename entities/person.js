@@ -1,6 +1,8 @@
 export default class Person {
   constructor({ birthDate, retirementAge = 65 }) {
     this.birthDate = birthDate;
+    // TODO: There's a distinction between target retirement age and statutory retirement age.
+    // This is more the latter at the moment, should it be the former?
     this.retirementAge = retirementAge;
   }
 
