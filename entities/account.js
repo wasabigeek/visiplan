@@ -1,4 +1,4 @@
-import { roundMoney } from "../simulators/helpers.js";
+import { roundMoney } from "../helpers.js";
 
 class Entry {
   constructor(amount, dateTime, title) {

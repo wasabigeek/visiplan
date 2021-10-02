@@ -1,5 +1,5 @@
 import BaseSim from "../BaseSim.js";
-import { roundMoney } from "../helpers.js";
+import { roundMoney } from "../../helpers.js";
 import { calculateOaContribution } from "./calculateOaContribution.js";
 import { calculateTotalCpfContribution } from "./calculateTotalCpfContribution.js";
 
