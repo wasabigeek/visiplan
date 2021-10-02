@@ -56,5 +56,5 @@ describe('HdbWithHdbLoanSim apply_yearly_updates', () => {
     const cashEntries = accountStore.get("cpf_oa").entries;
     const matchingEntry = cashEntries.find(entry => entry.title == TITLES.monthly_payment)
     expect(matchingEntry).toBeUndefined();
-  })
+  });
 });

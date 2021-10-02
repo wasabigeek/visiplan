@@ -43,8 +43,6 @@ for (let year = 2021; year <= 2060; year++) {
   });
 }
 
-console.log(accountStore.get('cpf_oa').entries)
-
 // Naive Visualisation
 let dataPoints = [];
 for (let year = 2021; year <= 2060; year ++) {
@@ -54,3 +52,7 @@ for (let year = 2021; year <= 2060; year ++) {
   dataPoints.push(startingBalance);
 }
 console.log(AsciiChart.plot(dataPoints, { height: 5 }))
+
+accountStore.accounts.forEach(account => {
+  console.log(account.identifier, account.current_balance());
+});

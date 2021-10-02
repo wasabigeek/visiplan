@@ -1,3 +1,5 @@
+import { roundMoney } from "./simulators/helpers.js";
+
 class Entry {
   constructor(amount, dateTime, title) {
     this.amount = amount;
@@ -13,9 +15,11 @@ class Account {
   }
 
   current_balance() {
-    return this.entries.reduce((acc, entry) => {
+    const rawBalance = this.entries.reduce((acc, entry) => {
       return acc + entry.amount;
     }, 0);
+
+    return roundMoney(rawBalance);
   }
 
   add_entry({ amount, dateTime, title = '' }) {
