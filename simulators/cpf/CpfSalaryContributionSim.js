@@ -1,9 +1,10 @@
 import BaseSim from "../BaseSim.js";
+import { roundMoney } from "../helpers.js";
 import { calculateOaContribution } from "./calculateOaContribution.js";
 import { calculateTotalCpfContribution } from "./calculateTotalCpfContribution.js";
 
-const getCpfInterest = ({ accountStore }) => {
-
+export const TITLES = {
+  cpf_interest: "cpf_interest"
 }
 
 export class CpfSalaryContributionSim extends BaseSim {
@@ -31,9 +32,13 @@ export class CpfSalaryContributionSim extends BaseSim {
     );
   }
 
-  apply_monthly_interest() {
+  apply_monthly_interest({ monthStart }) {
     const { accountStore } = this.baseConfig;
-
-    getCpfInterest({ accountStore });
+    const cpfOaAccount = accountStore.get('cpf_oa');
+    cpfOaAccount.add_entry({
+      amount: roundMoney(cpfOaAccount.current_balance() * 0.025),
+      dateTime: monthStart,
+      title: TITLES.cpf_interest
+    })
   }
 }
