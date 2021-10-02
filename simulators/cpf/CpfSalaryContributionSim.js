@@ -10,7 +10,7 @@ export const TITLES = {
 export class CpfSalaryContributionSim extends BaseSim {
   apply_monthly_updates(options) {
     const { accountStore, person } = this.baseConfig;
-    const { income, retirementAge } = this.userConfig;
+    const { income } = this.userConfig;
     const { monthStart } = options;
 
     if (person.is_retired(monthStart)) {
