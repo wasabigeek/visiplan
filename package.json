@@ -29,7 +29,8 @@
   "homepage": "https://github.com/wasabigeek/visiplan#readme",
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
-    "jest": "^27.1.0"
+    "jest": "^27.1.0",
+    "prettier": "^2.4.1"
   },
   "dependencies": {
     "asciichart": "^1.5.25"
