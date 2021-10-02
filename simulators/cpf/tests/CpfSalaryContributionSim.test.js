@@ -31,9 +31,9 @@ describe('apply_monthly_updates()', () => {
   });
   test("it stops increasing after a Person's retirement", () => {
     const accountStore = new AccountStore();
-    const person = new Person({ birthDate: new Date(2000, 0, 1) });
+    const person = new Person({ birthDate: new Date(2000, 0, 1), retirementAge: 50 });
 
-    const cpfSim = new CpfSalaryContributionSim({ accountStore, person }, { income: 5000, retirementAge: 50 });
+    const cpfSim = new CpfSalaryContributionSim({ accountStore, person }, { income: 5000 });
 
     cpfSim.apply_monthly_updates({ monthStart: new Date(2050, 7, 14) });
 
@@ -46,9 +46,9 @@ describe("apply_monthly_interest()", () => {
   test("it applies a 2.5% p.a. interest on the OA account", () => {
     const accountStore = new AccountStore();
     accountStore.get("cpf_oa").add_entry({ amount: 100, dateTime: new Date(2021, 0) });
-    const person = new Person({ birthDate: new Date(2000, 0, 1) });
+    const person = new Person({ birthDate: new Date(2000, 0, 1), retirementAge: 50 });
 
-    const cpfSim = new CpfSalaryContributionSim({ accountStore, person }, { income: 5000, retirementAge: 50 });
+    const cpfSim = new CpfSalaryContributionSim({ accountStore, person }, { income: 5000 });
 
     cpfSim.apply_monthly_interest({ monthStart: new Date(2050, 7, 14) });
 
@@ -58,9 +58,9 @@ describe("apply_monthly_interest()", () => {
   test("it does not create an interest entry if the OA account balance is negative", () => {
     const accountStore = new AccountStore();
     accountStore.get("cpf_oa").add_entry({ amount: -100, dateTime: new Date(2021, 0) });
-    const person = new Person({ birthDate: new Date(2000, 0, 1) });
+    const person = new Person({ birthDate: new Date(2000, 0, 1), retirementAge: 50 });
 
-    const cpfSim = new CpfSalaryContributionSim({ accountStore, person }, { income: 5000, retirementAge: 50 });
+    const cpfSim = new CpfSalaryContributionSim({ accountStore, person }, { income: 5000 });
 
     cpfSim.apply_monthly_interest({ monthStart: new Date(2050, 7, 14) });
 

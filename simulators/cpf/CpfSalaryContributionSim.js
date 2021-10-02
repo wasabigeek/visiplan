@@ -13,7 +13,7 @@ export class CpfSalaryContributionSim extends BaseSim {
     const { income, retirementAge } = this.userConfig;
     const { monthStart } = options;
 
-    if (person.age(monthStart) >= retirementAge) {
+    if (person.is_retired(monthStart)) {
       return;
     }
 
