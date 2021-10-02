@@ -35,10 +35,14 @@ export class CpfSalaryContributionSim extends BaseSim {
   apply_monthly_interest({ monthStart }) {
     const { accountStore } = this.baseConfig;
     const cpfOaAccount = accountStore.get('cpf_oa');
-    cpfOaAccount.add_entry({
-      amount: roundMoney(cpfOaAccount.current_balance() * 0.025 / 12),
-      dateTime: monthStart,
-      title: TITLES.cpf_interest
-    })
+
+    // naively skip calculation if account balance is negative, might want to relook this handling
+    if (cpfOaAccount.current_balance() > 0) {
+      cpfOaAccount.add_entry({
+        amount: roundMoney(cpfOaAccount.current_balance() * 0.025 / 12),
+        dateTime: monthStart,
+        title: TITLES.cpf_interest
+      })
+    }
   }
 }

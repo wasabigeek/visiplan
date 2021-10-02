@@ -55,4 +55,16 @@ describe("apply_monthly_interest()", () => {
     const interestEntry = accountStore.get("cpf_oa").entries.find(entry => entry.title == TITLES.cpf_interest);
     expect(interestEntry.amount).toBe(0.21); // 0.025 / 12 * 100
   });
+  test("it does not create an interest entry if the OA account balance is negative", () => {
+    const accountStore = new AccountStore();
+    accountStore.get("cpf_oa").add_entry({ amount: -100, dateTime: new Date(2021, 0) });
+    const person = new Person(new Date(2000, 0, 1));
+
+    const cpfSim = new CpfSalaryContributionSim({ accountStore, person }, { income: 5000, retirementAge: 50 });
+
+    cpfSim.apply_monthly_interest({ monthStart: new Date(2050, 7, 14) });
+
+    const interestEntry = accountStore.get("cpf_oa").entries.find(entry => entry.title == TITLES.cpf_interest);
+    expect(interestEntry).toBeUndefined();
+  });
 });
