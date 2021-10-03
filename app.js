@@ -7,12 +7,14 @@ import { CpfSalaryContributionSim } from "./simulators/cpf/CpfSalaryContribution
 import { HdbWithHdbLoanSim } from "./simulators/hdb/HdbWithHdbLoanSim.js";
 import SimpleExpensesSim from "./simulators/SimpleExpensesSim.js";
 import { SimpleInvestmentSim } from "./simulators/SimpleInvestmentSim.js";
+import SimpleSalarySim from "./simulators/SimpleSalarySim.js";
 
 const salarySchedule = new SimpleSalary({ startingYear: 2022, endYear: 2055, startingSalary: 5000 })
 const person = new Person({ birthDate: new Date(2000, 5, 1), salarySchedule });
 const accountStore = new AccountStore();
 const baseConfig = { accountStore, person, startDate: new Date(2021, 0) }
 
+const salarySim = new SimpleSalarySim(baseConfig, { baseSalary: 5000, growthRate: 0.03 });
 const expensesSim = new SimpleExpensesSim(baseConfig, { baseExpense: 2000 });
 const cpfSalaryContributionSim = new CpfSalaryContributionSim({ accountStore, person }, { income: 5000 })
 const simpleInvestmentSim = new SimpleInvestmentSim({ accountStore, person }, { monthlyDeposit: 1000, perAnnumInterestRate: 0.06 });
@@ -22,6 +24,7 @@ const hdbSim = new HdbWithHdbLoanSim(
 );
 
 const simulators = [
+  salarySim,
   expensesSim,
   cpfSalaryContributionSim,
   simpleInvestmentSim,
