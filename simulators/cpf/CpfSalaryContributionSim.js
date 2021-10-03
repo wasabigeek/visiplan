@@ -16,10 +16,15 @@ export class CpfSalaryContributionSim extends BaseSim {
       return;
     }
 
+    const salaryEntry = accountStore.get('cash').entries.find(entry => {
+      return entry.title == 'salary' &&
+        entry.dateTime.getFullYear() == monthStart.getFullYear() &&
+        entry.dateTime.getMonth() == monthStart.getMonth()
+    })
     const cpfOa = accountStore.get('cpf_oa');
     const totalCpfContribution = calculateTotalCpfContribution({
       age: person.age(monthStart),
-      ordinary_wages: person.salary(monthStart)
+      ordinary_wages: salaryEntry.amount
     });
     cpfOa.add_entry({
       amount: calculateOaContribution(

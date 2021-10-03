@@ -1,19 +1,18 @@
 
 import { AccountStore } from "../../../entities/account.js"; // TODO: mock
 import Person from "../../../entities/person.js";
-import SimpleSalary from "../../../entities/SimpleSalary.js";
 import { CpfSalaryContributionSim, TITLES } from "../CpfSalaryContributionSim.js";
 
 const setUpBaseConfig = () => {
   const accountStore = new AccountStore();
-  const person = new Person({ birthDate: new Date(1990, 0, 1), salarySchedule: new SimpleSalary({ startingSalary: 5000, startingYear: 2022 }) });
+  const person = new Person({ birthDate: new Date(1990, 0, 1) });
   return { accountStore, person };
 }
 
 describe('apply_monthly_updates()', () => {
   const addSalaryEntry = (baseConfig) => {
     baseConfig.accountStore.get('cash').add_entry({
-      amount: 1000,
+      amount: 5000,
       dateTime: new Date(2022, 7),
       title: "salary"
     });
@@ -21,7 +20,7 @@ describe('apply_monthly_updates()', () => {
 
   test('it calculates CPF OA correctly', () => {
     const baseConfig = setUpBaseConfig();
-
+    addSalaryEntry(baseConfig);
     const cpfSim = new CpfSalaryContributionSim(baseConfig);
 
     cpfSim.apply_monthly_updates({ monthStart: new Date(2022, 7, 14) });
@@ -31,7 +30,7 @@ describe('apply_monthly_updates()', () => {
   });
   test('it generates OA entries with the correct date', () => {
     const baseConfig = setUpBaseConfig();
-
+    addSalaryEntry(baseConfig);
     const cpfSim = new CpfSalaryContributionSim(baseConfig);
 
     cpfSim.apply_monthly_updates({ monthStart: new Date(2022, 7, 14) });
@@ -44,10 +43,10 @@ describe('apply_monthly_updates()', () => {
   });
   test("it stops increasing after a Person's retirement", () => {
     const baseConfig = setUpBaseConfig();
-
+    addSalaryEntry(baseConfig);
     const cpfSim = new CpfSalaryContributionSim(baseConfig);
 
-    cpfSim.apply_monthly_updates({ monthStart: new Date(2050, 7, 14) });
+    cpfSim.apply_monthly_updates({ monthStart: new Date(2055, 7, 14) });
 
     const oaBalance = baseConfig.accountStore.get("cpf_oa").current_balance();
     expect(oaBalance).toBe(0);
