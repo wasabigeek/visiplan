@@ -5,7 +5,7 @@ import Person from "./entities/person.js";
 import { CpfSalaryContributionSim } from "./simulators/cpf/CpfSalaryContributionSim.js";
 import { HdbWithHdbLoanSim } from "./simulators/hdb/HdbWithHdbLoanSim.js";
 import SimpleExpensesSim from "./simulators/SimpleExpensesSim.js";
-import { SimpleInvestmentSim } from "./simulators/SimpleInvestmentSim.js";
+import SimpleInvestmentSim from "./simulators/SimpleInvestmentSim.js";
 import SimpleSalarySim from "./simulators/SimpleSalarySim.js";
 
 const person = new Person({ birthDate: new Date(2000, 5, 1) });
