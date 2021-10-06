@@ -6,6 +6,7 @@ describe("apply_monthly_updates()", () => {
   test("creates entries in the simple_investments account", () => {
     const accountStore = new AccountStore();
     const person = new Person({ birthDate: new Date(1995, 0, 1) });
+    accountStore.get('cash').add_entry({ amount: 1000, dateTime: new Date() })
 
     const startDate = new Date(2022, 0);
     const sim = new SimpleInvestmentSim({ accountStore, person, startDate }, { monthlyDeposit: 1000 });
@@ -33,6 +34,44 @@ describe("apply_monthly_updates()", () => {
       .entries
       .find(entry => entry.amount == -1000);
     expect(withdrawalEntry).toBeDefined();
+  });
+  test("does not withdraw more than what is in the cash account", () => {
+    const accountStore = new AccountStore();
+    const person = new Person({ birthDate: new Date(1995, 0, 1) });
+    accountStore.get('cash').add_entry({ amount: 500, dateTime: new Date() })
+
+    const startDate = new Date(2022, 0);
+    const sim = new SimpleInvestmentSim({ accountStore, person, startDate }, { monthlyDeposit: 1000 });
+
+    sim.apply_monthly_updates({ monthStart: new Date(2022, 0) });
+
+    const investmentEntries = accountStore
+      .get("simple_investments")
+      .entries;
+    expect(investmentEntries[0].amount).toEqual(500);
+  });
+  test("does nothing if there is no money in the cash account", () => {
+    const accountStore = new AccountStore();
+    const person = new Person({ birthDate: new Date(1995, 0, 1) });
+    accountStore.get('cash').add_entries([
+      { amount: 1000, dateTime: new Date() },
+      { amount: -1000, dateTime: new Date() }
+    ])
+
+    const startDate = new Date(2022, 0);
+    const sim = new SimpleInvestmentSim({ accountStore, person, startDate }, { monthlyDeposit: 1000 });
+
+    sim.apply_monthly_updates({ monthStart: new Date(2022, 0) });
+
+    const cashEntries = accountStore
+      .get("cash")
+      .entries;
+    expect(cashEntries.length).toEqual(2);
+
+    const investmentEntries = accountStore
+      .get("simple_investments")
+      .entries;
+    expect(investmentEntries.length).toEqual(0);
   });
 });
 

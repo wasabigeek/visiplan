@@ -13,14 +13,21 @@ export default class SimpleInvestmentSim extends BaseSim {
       return;
     }
 
-    accountStore.get('cash').add_entry({
-      amount: -1 * monthlyDeposit,
+    const cashAccount = accountStore.get('cash');
+    const cashBalance = cashAccount.current_balance();
+    if (cashBalance <= 0) {
+      return;
+    }
+
+    const depositAmount = Math.min(cashBalance, monthlyDeposit)
+
+    cashAccount.add_entry({
+      amount: -1 * depositAmount,
       dateTime: monthStart
     });
-
     const investmentAccount = accountStore.get('simple_investments');
     investmentAccount.add_entry({
-      amount: monthlyDeposit,
+      amount: depositAmount,
       dateTime: monthStart
     });
   }
