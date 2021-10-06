@@ -1,6 +1,6 @@
 import { AccountStore } from "../entities/account.js";
 import Person from "../entities/person.js";
-import SimpleInvestmentSim from "./SimpleInvestmentSim.js"
+import SimpleInvestmentSim, { TITLES } from "./SimpleInvestmentSim.js"
 
 describe("apply_monthly_updates()", () => {
   test("creates entries in the simple_investments account", () => {
@@ -17,5 +17,42 @@ describe("apply_monthly_updates()", () => {
       .entries;
     expect(investmentEntries.length).toEqual(1);
     expect(investmentEntries[0].amount).toEqual(1000);
+  });
+});
+
+describe("apply_yearly_interest()", () => {
+  test("does nothing if there is no balance in the simple_investments account", () => {
+    const accountStore = new AccountStore();
+    const person = new Person({ birthDate: new Date(1995, 0, 1) });
+    accountStore.get('simple_investments').add_entries([
+      { amount: 100, dateTime: new Date() },
+      { amount: -100, dateTime: new Date() }
+    ])
+
+    const startDate = new Date(2022, 0);
+    const sim = new SimpleInvestmentSim({ accountStore, person, startDate }, { perAnnumInterestRate: 0.05 });
+
+    sim.apply_yearly_interest({ yearStart: new Date(2022, 0) });
+
+    const investmentBalance = accountStore
+      .get("simple_investments")
+      .current_balance();
+    expect(investmentBalance).toEqual(0);
+  });
+  test("creates interest entries in the simple_investments account", () => {
+    const accountStore = new AccountStore();
+    const person = new Person({ birthDate: new Date(1995, 0, 1) });
+    accountStore.get('simple_investments').add_entry({ amount: 1000, dateTime: new Date() })
+
+    const startDate = new Date(2022, 0);
+    const sim = new SimpleInvestmentSim({ accountStore, person, startDate }, { perAnnumInterestRate: 0.05 });
+
+    sim.apply_yearly_interest({ monthStart: new Date(2022, 0) });
+
+    const interestEntry = accountStore
+      .get("simple_investments")
+      .entries
+      .find(entry => entry.title == TITLES.interest);
+    expect(interestEntry.amount).toEqual(50);
   });
 });
