@@ -13,8 +13,12 @@ export default class SimpleInvestmentSim extends BaseSim {
       return;
     }
 
-    const investmentAccount = accountStore.get('simple_investments');
+    accountStore.get('cash').add_entry({
+      amount: -1 * monthlyDeposit,
+      dateTime: monthStart
+    });
 
+    const investmentAccount = accountStore.get('simple_investments');
     investmentAccount.add_entry({
       amount: monthlyDeposit,
       dateTime: monthStart

@@ -18,6 +18,22 @@ describe("apply_monthly_updates()", () => {
     expect(investmentEntries.length).toEqual(1);
     expect(investmentEntries[0].amount).toEqual(1000);
   });
+  test("creates withdrawal entries in the cash account", () => {
+    const accountStore = new AccountStore();
+    const person = new Person({ birthDate: new Date(1995, 0, 1) });
+    accountStore.get('cash').add_entry({ amount: 1000, dateTime: new Date() })
+
+    const startDate = new Date(2022, 0);
+    const sim = new SimpleInvestmentSim({ accountStore, person, startDate }, { monthlyDeposit: 1000 });
+
+    sim.apply_monthly_updates({ monthStart: new Date(2022, 0) });
+
+    const withdrawalEntry = accountStore
+      .get("cash")
+      .entries
+      .find(entry => entry.amount == -1000);
+    expect(withdrawalEntry).toBeDefined();
+  });
 });
 
 describe("apply_yearly_interest()", () => {
