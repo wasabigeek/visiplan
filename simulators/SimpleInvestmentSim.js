@@ -7,9 +7,14 @@ export const TITLES = {
 export default class SimpleInvestmentSim extends BaseSim {
   apply_monthly_updates({ monthStart }) {
     const { accountStore, person } = this.baseConfig;
-    const { monthlyDeposit } = this.userConfig;
+    const { monthlyDeposit, drawdownRate } = this.userConfig;
 
     if (person.is_retired(monthStart)) {
+      const investmentAccount = accountStore.get('simple_investments');
+      investmentAccount.add_entry({
+        amount: -1 * drawdownRate * investmentAccount.current_balance(),
+        dateTime: monthStart
+      });
       return;
     }
 

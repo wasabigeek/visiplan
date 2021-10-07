@@ -35,6 +35,21 @@ describe("apply_monthly_updates()", () => {
       .find(entry => entry.amount == -1000);
     expect(withdrawalEntry).toBeDefined();
   });
+  test("withdraws simple_investments after retirement", () => {
+    const accountStore = new AccountStore();
+    const person = new Person({ birthDate: new Date(1995, 0, 1) });
+    accountStore.get('simple_investments').add_entry({ amount: 1000, dateTime: new Date() })
+
+    const sim = new SimpleInvestmentSim({ accountStore, person }, { drawdownRate: 0.03 });
+
+    sim.apply_monthly_updates({ monthStart: new Date(2060, 0) });
+
+    const withdrawalEntry = accountStore
+      .get("simple_investments")
+      .entries
+      .find(entry => entry.amount == -30);
+    expect(withdrawalEntry).toBeDefined();
+  });
   test("does not withdraw more than what is in the cash account", () => {
     const accountStore = new AccountStore();
     const person = new Person({ birthDate: new Date(1995, 0, 1) });
