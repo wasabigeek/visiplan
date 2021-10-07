@@ -11,10 +11,15 @@ export default class SimpleInvestmentSim extends BaseSim {
 
     if (person.is_retired(monthStart)) {
       const investmentAccount = accountStore.get('simple_investments');
+      const drawdownAmount = drawdownRate * investmentAccount.current_balance();
       investmentAccount.add_entry({
-        amount: -1 * drawdownRate * investmentAccount.current_balance(),
+        amount: -1 * drawdownAmount,
         dateTime: monthStart
       });
+      accountStore.get('cash').add_entry({
+        amount: drawdownAmount,
+        dateTime: monthStart
+      })
       return;
     }
 

@@ -49,6 +49,12 @@ describe("apply_monthly_updates()", () => {
       .entries
       .find(entry => entry.amount == -30);
     expect(withdrawalEntry).toBeDefined();
+
+    const cashEntry = accountStore
+      .get("cash")
+      .entries
+      .find(entry => entry.amount == 30);
+    expect(cashEntry).toBeDefined();
   });
   test("does not withdraw more than what is in the cash account", () => {
     const accountStore = new AccountStore();
