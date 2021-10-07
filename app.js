@@ -8,14 +8,15 @@ import SimpleExpensesSim from "./simulators/SimpleExpensesSim.js";
 import SimpleInvestmentSim from "./simulators/SimpleInvestmentSim.js";
 import SimpleSalarySim from "./simulators/SimpleSalarySim.js";
 
-const person = new Person({ birthDate: new Date(2000, 5, 1) });
+const person = new Person({ birthDate: new Date(1995, 5, 1) });
 const accountStore = new AccountStore();
+accountStore.get("cash").add_entry({ amount: 5000, dateTime: new Date(2021, 0), title: "initial_cash" })
 const baseConfig = { accountStore, person, startDate: new Date(2021, 0) }
 
 const salarySim = new SimpleSalarySim(baseConfig, { baseSalary: 5000, growthRate: 0.03 });
-const expensesSim = new SimpleExpensesSim(baseConfig, { baseExpense: 2000 });
+const expensesSim = new SimpleExpensesSim(baseConfig, { baseExpense: 3000 });
 const cpfSalaryContributionSim = new CpfSalaryContributionSim({ accountStore, person }, { income: 5000 })
-const simpleInvestmentSim = new SimpleInvestmentSim({ accountStore, person }, { monthlyDeposit: 1000, perAnnumInterestRate: 0.06 });
+const simpleInvestmentSim = new SimpleInvestmentSim({ accountStore, person }, { monthlyDeposit: 1000, perAnnumInterestRate: 0.06, drawdownRate: 0.03 });
 const hdbSim = new HdbWithHdbLoanSim(
   { accountStore, person },
   { downpaymentYear: 2022, purchasePrice: 450000, perAnnumInterestRate: 0.025, loanYears: 15, estimatedTopYear: 2026 }
@@ -29,7 +30,7 @@ const simulators = [
   hdbSim
 ]
 
-for (let year = 2021; year <= 2060; year++) {
+for (let year = 2021; year <= 2070; year++) {
   const yearStart = new Date(year, 0);
   simulators.forEach((simulator) => {
     simulator.apply_yearly_updates({ yearStart });
