@@ -47,6 +47,10 @@ export class AccountStore {
     this.accounts = [];
   }
 
+  add_entry(accountIdentifier, entry) {
+    this.get(accountIdentifier).add_entry(entry);
+  }
+
   get(identifier) {
     const existingAccount = this.accounts.find(account => account.identifier === identifier);
     if (existingAccount) { return existingAccount };

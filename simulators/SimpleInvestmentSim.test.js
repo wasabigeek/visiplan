@@ -6,7 +6,7 @@ describe("apply_monthly_updates()", () => {
   test("creates entries in the simple_investments account", () => {
     const accountStore = new AccountStore();
     const person = new Person({ birthDate: new Date(1995, 0, 1) });
-    accountStore.get('cash').add_entry({ amount: 1000, dateTime: new Date() })
+    accountStore.add_entry("cash", { amount: 1000, dateTime: new Date() })
 
     const startDate = new Date(2022, 0);
     const sim = new SimpleInvestmentSim({ accountStore, person, startDate }, { monthlyDeposit: 1000 });
@@ -22,7 +22,7 @@ describe("apply_monthly_updates()", () => {
   test("creates withdrawal entries in the cash account", () => {
     const accountStore = new AccountStore();
     const person = new Person({ birthDate: new Date(1995, 0, 1) });
-    accountStore.get('cash').add_entry({ amount: 1000, dateTime: new Date() })
+    accountStore.add_entry("cash", { amount: 1000, dateTime: new Date() })
 
     const startDate = new Date(2022, 0);
     const sim = new SimpleInvestmentSim({ accountStore, person, startDate }, { monthlyDeposit: 1000 });
@@ -38,7 +38,7 @@ describe("apply_monthly_updates()", () => {
   test("withdraws simple_investments after retirement", () => {
     const accountStore = new AccountStore();
     const person = new Person({ birthDate: new Date(1995, 0, 1) });
-    accountStore.get('simple_investments').add_entry({ amount: 1000, dateTime: new Date() })
+    accountStore.add_entry("simple_investments", { amount: 1000, dateTime: new Date() })
 
     const sim = new SimpleInvestmentSim({ accountStore, person }, { drawdownRate: 0.03 });
 
@@ -59,7 +59,7 @@ describe("apply_monthly_updates()", () => {
   test("does not withdraw more than what is in the cash account", () => {
     const accountStore = new AccountStore();
     const person = new Person({ birthDate: new Date(1995, 0, 1) });
-    accountStore.get('cash').add_entry({ amount: 500, dateTime: new Date() })
+    accountStore.add_entry("cash", { amount: 500, dateTime: new Date() })
 
     const startDate = new Date(2022, 0);
     const sim = new SimpleInvestmentSim({ accountStore, person, startDate }, { monthlyDeposit: 1000 });
@@ -118,7 +118,7 @@ describe("apply_yearly_interest()", () => {
   test("creates interest entries in the simple_investments account", () => {
     const accountStore = new AccountStore();
     const person = new Person({ birthDate: new Date(1995, 0, 1) });
-    accountStore.get('simple_investments').add_entry({ amount: 1000, dateTime: new Date() })
+    accountStore.add_entry("simple_investments", { amount: 1000, dateTime: new Date() })
 
     const startDate = new Date(2022, 0);
     const sim = new SimpleInvestmentSim({ accountStore, person, startDate }, { perAnnumInterestRate: 0.05 });
