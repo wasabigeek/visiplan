@@ -56,6 +56,7 @@ export class CpfSalaryContributionSim extends BaseSim {
   apply_monthly_interest({ monthStart }) {
     const { accountStore } = this.baseConfig;
 
+    // TODO: interest calculation is a little more complicated
     // naively skip calculation if account balance is negative, might want to relook this handling
     const cpfOaBalance = accountStore.get_current_balance("cpf_oa");
     if (cpfOaBalance > 0) {
