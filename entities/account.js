@@ -48,7 +48,11 @@ export class AccountStore {
   }
 
   add_entry(accountIdentifier, entry) {
-    this.get(accountIdentifier).add_entry(entry);
+    return this.get(accountIdentifier).add_entry(entry);
+  }
+
+  get_current_balance(accountIdentifier) {
+    return this.get(accountIdentifier).current_balance();
   }
 
   get(identifier) {
