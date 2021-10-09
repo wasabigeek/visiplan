@@ -18,38 +18,18 @@ describe('apply_monthly_updates()', () => {
     });
   }
 
-  test('it calculates CPF OA correctly', () => {
+  test('it generates the correct OA entry', () => {
     const baseConfig = setUpBaseConfig();
     addSalaryEntry(baseConfig);
     const cpfSim = new CpfSalaryContributionSim(baseConfig);
 
     cpfSim.apply_monthly_updates({ monthStart: new Date(2022, 7, 14) });
 
-    const oaBalance = baseConfig.accountStore.get("cpf_oa").current_balance();
-    expect(oaBalance).toBe(1150.15);
-  });
-  test('it generates OA entries with the correct date', () => {
-    const baseConfig = setUpBaseConfig();
-    addSalaryEntry(baseConfig);
-    const cpfSim = new CpfSalaryContributionSim(baseConfig);
-
-    cpfSim.apply_monthly_updates({ monthStart: new Date(2022, 7, 14) });
-
-    const dateTime = baseConfig.accountStore
+    const entry = baseConfig.accountStore
       .get("cpf_oa")
-      .entries[0]
-      .dateTime;
-    expect(dateTime.toISOString()).toBe(new Date(2022, 7, 14).toISOString());
-  });
-  test("it stops increasing after a Person's retirement", () => {
-    const baseConfig = setUpBaseConfig();
-    addSalaryEntry(baseConfig);
-    const cpfSim = new CpfSalaryContributionSim(baseConfig);
-
-    cpfSim.apply_monthly_updates({ monthStart: new Date(2055, 7, 14) });
-
-    const oaBalance = baseConfig.accountStore.get("cpf_oa").current_balance();
-    expect(oaBalance).toBe(0);
+      .entries[0];
+    expect(entry.amount).toEqual(1150.15);
+    expect(entry.dateTime.toISOString()).toBe(new Date(2022, 7, 14).toISOString());
   });
 
   test('it generates SA entries', () => {
@@ -80,6 +60,17 @@ describe('apply_monthly_updates()', () => {
     expect(entry.dateTime.toISOString()).toBe(new Date(2022, 7, 14).toISOString());
   });
 
+  test("it stops contributions after a Person's retirement", () => {
+    const baseConfig = setUpBaseConfig();
+    addSalaryEntry(baseConfig);
+    const cpfSim = new CpfSalaryContributionSim(baseConfig);
+
+    cpfSim.apply_monthly_updates({ monthStart: new Date(2055, 7, 14) });
+
+    expect(baseConfig.accountStore.get_current_balance("cpf_oa")).toBe(0);
+    expect(baseConfig.accountStore.get_current_balance("cpf_sa")).toBe(0);
+    expect(baseConfig.accountStore.get_current_balance("cpf_ma")).toBe(0);
+  });
 });
 
 describe("apply_monthly_interest()", () => {
