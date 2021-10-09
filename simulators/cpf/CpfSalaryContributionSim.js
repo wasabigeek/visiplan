@@ -12,41 +12,47 @@ export class CpfSalaryContributionSim extends BaseSim {
     const { accountStore, person } = this.baseConfig;
     const { monthStart } = options;
 
-    if (person.is_retired(monthStart)) {
-      return;
-    }
+    if (person.is_retired(monthStart)) { return; }
 
-    const salaryEntry = accountStore.get('cash').entries.find(entry => {
-      return entry.title == 'salary' &&
-        entry.dateTime.getFullYear() == monthStart.getFullYear() &&
-        entry.dateTime.getMonth() == monthStart.getMonth()
-    })
-    const cpfOa = accountStore.get('cpf_oa');
+    const salaryEntry = this._getSalaryForMonth(accountStore, monthStart);
     const totalCpfContribution = calculateTotalCpfContribution({
       age: person.age(monthStart),
       ordinary_wages: salaryEntry.amount
     });
-    cpfOa.add_entry({
-      amount: calculateOaContribution(
-        person.age(monthStart),
-        totalCpfContribution
-      ),
-      dateTime: monthStart
-    }
+    accountStore.add_entry(
+      "cpf_oa",
+      {
+        amount: calculateOaContribution(
+          person.age(monthStart),
+          totalCpfContribution
+        ),
+        dateTime: monthStart
+      }
     );
   }
 
   apply_monthly_interest({ monthStart }) {
     const { accountStore } = this.baseConfig;
-    const cpfOaAccount = accountStore.get('cpf_oa');
 
     // naively skip calculation if account balance is negative, might want to relook this handling
-    if (cpfOaAccount.current_balance() > 0) {
-      cpfOaAccount.add_entry({
-        amount: roundMoney(cpfOaAccount.current_balance() * 0.025 / 12),
-        dateTime: monthStart,
-        title: TITLES.cpf_interest
-      })
+    const cpfOaBalance = accountStore.get_current_balance("cpf_oa");
+    if (cpfOaBalance > 0) {
+      accountStore.add_entry(
+        "cpf_oa",
+        {
+          amount: roundMoney(cpfOaBalance * 0.025 / 12),
+          dateTime: monthStart,
+          title: TITLES.cpf_interest
+        }
+      )
     }
+  }
+
+  _getSalaryForMonth(accountStore, monthStart) {
+    return accountStore.get("cash").entries.find(entry => {
+      return entry.title == 'salary' &&
+        entry.dateTime.getFullYear() == monthStart.getFullYear() &&
+        entry.dateTime.getMonth() == monthStart.getMonth()
+    })
   }
 }
