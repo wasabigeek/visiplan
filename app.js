@@ -8,10 +8,14 @@ import SimpleExpensesSim from "./simulators/SimpleExpensesSim.js";
 import SimpleInvestmentSim from "./simulators/SimpleInvestmentSim.js";
 import SimpleSalarySim from "./simulators/SimpleSalarySim.js";
 
-const person = new Person({ birthDate: new Date(1995, 5, 1) });
+const LIFE_EXPECTANCY = 90;
+const START_YEAR = 2021;
+const BIRTH_DATE = new Date(1995, 5, 1);
+
+const person = new Person({ birthDate: BIRTH_DATE });
 const accountStore = new AccountStore();
-accountStore.get("cash").add_entry({ amount: 5000, dateTime: new Date(2021, 0), title: "initial_cash" })
-const baseConfig = { accountStore, person, startDate: new Date(2021, 0) }
+accountStore.get("cash").add_entry({ amount: 5000, dateTime: new Date(START_YEAR, 0), title: "initial_cash" })
+const baseConfig = { accountStore, person, startDate: new Date(START_YEAR, 0) }
 
 const salarySim = new SimpleSalarySim(baseConfig, { baseSalary: 5000, growthRate: 0.03 });
 const expensesSim = new SimpleExpensesSim(baseConfig, { baseExpense: 3000 });
@@ -30,7 +34,8 @@ const simulators = [
   hdbSim
 ]
 
-for (let year = 2021; year <= 2070; year++) {
+const simulationEndYear = LIFE_EXPECTANCY + BIRTH_DATE.getFullYear();
+for (let year = START_YEAR; year <= simulationEndYear; year++) {
   const yearStart = new Date(year, 0);
   simulators.forEach((simulator) => {
     simulator.apply_yearly_updates({ yearStart });
@@ -53,7 +58,7 @@ for (let year = 2021; year <= 2070; year++) {
 
 // Naive Visualisation
 let dataPoints = [];
-for (let year = 2021; year <= 2060; year++) {
+for (let year = START_YEAR; year <= simulationEndYear; year++) {
   const startingBalance = accountStore.accounts.reduce((acc, account) => {
     return acc + account.balance(new Date(year, 0));
   }, 0)
