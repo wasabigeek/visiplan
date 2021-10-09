@@ -66,6 +66,20 @@ describe('apply_monthly_updates()', () => {
     expect(entry.dateTime.toISOString()).toBe(new Date(2022, 7, 14).toISOString());
   });
 
+  test('it generates MA entries', () => {
+    const baseConfig = setUpBaseConfig();
+    addSalaryEntry(baseConfig);
+    const cpfSim = new CpfSalaryContributionSim(baseConfig);
+
+    cpfSim.apply_monthly_updates({ monthStart: new Date(2022, 7, 14) });
+
+    const entry = baseConfig.accountStore
+      .get("cpf_ma")
+      .entries[0];
+    expect(entry.amount).toEqual(399.97);
+    expect(entry.dateTime.toISOString()).toBe(new Date(2022, 7, 14).toISOString());
+  });
+
 });
 
 describe("apply_monthly_interest()", () => {

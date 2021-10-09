@@ -3,6 +3,7 @@ import { roundMoney } from "../../helpers.js";
 import { calculateOaContribution } from "./calculateOaContribution.js";
 import { calculateTotalCpfContribution } from "./calculateTotalCpfContribution.js";
 import calculateSpecialAccountContribution from "./calculateSpecialAccountContribution.js";
+import calculateMedisaveAccountContribution from "./calculateMedisaveAccountContribution.js";
 
 export const TITLES = {
   cpf_interest: "cpf_interest"
@@ -34,6 +35,16 @@ export class CpfSalaryContributionSim extends BaseSim {
       "cpf_sa",
       {
         amount: calculateSpecialAccountContribution(
+          person.age(monthStart),
+          totalCpfContribution
+        ),
+        dateTime: monthStart
+      }
+    );
+    accountStore.add_entry(
+      "cpf_ma",
+      {
+        amount: calculateMedisaveAccountContribution(
           person.age(monthStart),
           totalCpfContribution
         ),
