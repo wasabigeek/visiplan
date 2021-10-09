@@ -68,6 +68,32 @@ export class CpfSalaryContributionSim extends BaseSim {
         }
       )
     }
+
+    // naively skip calculation if account balance is negative, might want to relook this handling
+    const cpfSaBalance = accountStore.get_current_balance("cpf_sa");
+    if (cpfSaBalance > 0) {
+      accountStore.add_entry(
+        "cpf_sa",
+        {
+          amount: roundMoney(cpfSaBalance * 0.04 / 12),
+          dateTime: monthStart,
+          title: TITLES.cpf_interest
+        }
+      )
+    }
+
+    // naively skip calculation if account balance is negative, might want to relook this handling
+    const cpfMaBalance = accountStore.get_current_balance("cpf_ma");
+    if (cpfMaBalance > 0) {
+      accountStore.add_entry(
+        "cpf_ma",
+        {
+          amount: roundMoney(cpfMaBalance * 0.04 / 12),
+          dateTime: monthStart,
+          title: TITLES.cpf_interest
+        }
+      )
+    }
   }
 
   _getSalaryForMonth(accountStore, monthStart) {

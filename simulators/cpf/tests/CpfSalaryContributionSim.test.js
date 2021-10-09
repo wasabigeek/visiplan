@@ -85,6 +85,28 @@ describe("apply_monthly_interest()", () => {
     const interestEntry = baseConfig.accountStore.get("cpf_oa").entries.find(entry => entry.title == TITLES.cpf_interest);
     expect(interestEntry.amount).toBe(0.21); // 0.025 / 12 * 100
   });
+  test("it applies a 4% p.a. interest on the SA account", () => {
+    const baseConfig = setUpBaseConfig();
+    baseConfig.accountStore.get("cpf_sa").add_entry({ amount: 100, dateTime: new Date(2021, 0) });
+
+    const cpfSim = new CpfSalaryContributionSim(baseConfig);
+
+    cpfSim.apply_monthly_interest({ monthStart: new Date(2050, 7, 14) });
+
+    const interestEntry = baseConfig.accountStore.get("cpf_sa").entries.find(entry => entry.title == TITLES.cpf_interest);
+    expect(interestEntry.amount).toBe(0.33); // 0.04 / 12 * 100
+  });
+  test("it applies a 4% p.a. interest on the MA account", () => {
+    const baseConfig = setUpBaseConfig();
+    baseConfig.accountStore.get("cpf_ma").add_entry({ amount: 100, dateTime: new Date(2021, 0) });
+
+    const cpfSim = new CpfSalaryContributionSim(baseConfig);
+
+    cpfSim.apply_monthly_interest({ monthStart: new Date(2050, 7, 14) });
+
+    const interestEntry = baseConfig.accountStore.get("cpf_ma").entries.find(entry => entry.title == TITLES.cpf_interest);
+    expect(interestEntry.amount).toBe(0.33); // 0.04 / 12 * 100
+  });
   test("it does not create an interest entry if the OA account balance is negative", () => {
     const baseConfig = setUpBaseConfig();
     baseConfig.accountStore.get("cpf_oa").add_entry({ amount: -100, dateTime: new Date(2021, 0) });
