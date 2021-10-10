@@ -1,7 +1,8 @@
 
 import { AccountStore } from "../../../entities/account.js"; // TODO: mock
 import Person from "../../../entities/person.js";
-import { CpfSalaryContributionSim, TITLES } from "../CpfSalaryContributionSim.js";
+import { TITLES } from "../CpfSalaryContributionSim.js";
+import CpfSim from "../CpfSim.js";
 
 const setUpBaseConfig = () => {
   const accountStore = new AccountStore();
@@ -21,7 +22,7 @@ describe('apply_monthly_updates()', () => {
   test('it generates the correct OA entry', () => {
     const baseConfig = setUpBaseConfig();
     addSalaryEntry(baseConfig);
-    const cpfSim = new CpfSalaryContributionSim(baseConfig);
+    const cpfSim = new CpfSim(baseConfig);
 
     cpfSim.apply_monthly_updates({ monthStart: new Date(2022, 7, 14) });
 
@@ -35,7 +36,7 @@ describe('apply_monthly_updates()', () => {
   test('it generates SA entries', () => {
     const baseConfig = setUpBaseConfig();
     addSalaryEntry(baseConfig);
-    const cpfSim = new CpfSalaryContributionSim(baseConfig);
+    const cpfSim = new CpfSim(baseConfig);
 
     cpfSim.apply_monthly_updates({ monthStart: new Date(2022, 7, 14) });
 
@@ -49,7 +50,7 @@ describe('apply_monthly_updates()', () => {
   test('it generates MA entries', () => {
     const baseConfig = setUpBaseConfig();
     addSalaryEntry(baseConfig);
-    const cpfSim = new CpfSalaryContributionSim(baseConfig);
+    const cpfSim = new CpfSim(baseConfig);
 
     cpfSim.apply_monthly_updates({ monthStart: new Date(2022, 7, 14) });
 
@@ -63,7 +64,7 @@ describe('apply_monthly_updates()', () => {
   test("it stops contributions after a Person's retirement", () => {
     const baseConfig = setUpBaseConfig();
     addSalaryEntry(baseConfig);
-    const cpfSim = new CpfSalaryContributionSim(baseConfig);
+    const cpfSim = new CpfSim(baseConfig);
 
     cpfSim.apply_monthly_updates({ monthStart: new Date(2055, 7, 14) });
 
@@ -78,7 +79,7 @@ describe("apply_monthly_interest()", () => {
     const baseConfig = setUpBaseConfig();
     baseConfig.accountStore.get("cpf_oa").add_entry({ amount: 100, dateTime: new Date(2021, 0) });
 
-    const cpfSim = new CpfSalaryContributionSim(baseConfig);
+    const cpfSim = new CpfSim(baseConfig);
 
     cpfSim.apply_monthly_interest({ monthStart: new Date(2050, 7, 14) });
 
@@ -89,7 +90,7 @@ describe("apply_monthly_interest()", () => {
     const baseConfig = setUpBaseConfig();
     baseConfig.accountStore.get("cpf_sa").add_entry({ amount: 100, dateTime: new Date(2021, 0) });
 
-    const cpfSim = new CpfSalaryContributionSim(baseConfig);
+    const cpfSim = new CpfSim(baseConfig);
 
     cpfSim.apply_monthly_interest({ monthStart: new Date(2050, 7, 14) });
 
@@ -100,7 +101,7 @@ describe("apply_monthly_interest()", () => {
     const baseConfig = setUpBaseConfig();
     baseConfig.accountStore.get("cpf_ma").add_entry({ amount: 100, dateTime: new Date(2021, 0) });
 
-    const cpfSim = new CpfSalaryContributionSim(baseConfig);
+    const cpfSim = new CpfSim(baseConfig);
 
     cpfSim.apply_monthly_interest({ monthStart: new Date(2050, 7, 14) });
 
@@ -111,7 +112,7 @@ describe("apply_monthly_interest()", () => {
     const baseConfig = setUpBaseConfig();
     baseConfig.accountStore.get("cpf_oa").add_entry({ amount: -100, dateTime: new Date(2021, 0) });
 
-    const cpfSim = new CpfSalaryContributionSim(baseConfig);
+    const cpfSim = new CpfSim(baseConfig);
 
     cpfSim.apply_monthly_interest({ monthStart: new Date(2050, 7, 14) });
 

@@ -2,7 +2,7 @@ import AsciiChart from "asciichart";
 
 import { AccountStore } from "./entities/account.js";
 import Person from "./entities/person.js";
-import { CpfSalaryContributionSim } from "./simulators/cpf/CpfSalaryContributionSim.js";
+import CpfSim from "./simulators/cpf/CpfSim.js";
 import { HdbWithHdbLoanSim } from "./simulators/hdb/HdbWithHdbLoanSim.js";
 import SimpleExpensesSim from "./simulators/SimpleExpensesSim.js";
 import SimpleInvestmentSim from "./simulators/SimpleInvestmentSim.js";
@@ -19,7 +19,7 @@ const baseConfig = { accountStore, person, startDate: new Date(START_YEAR, 0) }
 
 const salarySim = new SimpleSalarySim(baseConfig, { baseSalary: 5000, growthRate: 0.03 });
 const expensesSim = new SimpleExpensesSim(baseConfig, { baseExpense: 3000 });
-const cpfSalaryContributionSim = new CpfSalaryContributionSim({ accountStore, person }, { income: 5000 })
+const cpfSalaryContributionSim = new CpfSim({ accountStore, person }, { income: 5000 })
 const simpleInvestmentSim = new SimpleInvestmentSim({ accountStore, person }, { monthlyDeposit: 1000, perAnnumInterestRate: 0.06, drawdownRate: 0.03 });
 const hdbSim = new HdbWithHdbLoanSim(
   { accountStore, person },
