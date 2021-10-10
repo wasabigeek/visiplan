@@ -12,11 +12,14 @@ const setUpBaseConfig = () => {
 
 describe('apply_monthly_updates()', () => {
   const addSalaryEntry = (baseConfig) => {
-    baseConfig.accountStore.get('cash').add_entry({
-      amount: 5000,
-      dateTime: new Date(2022, 7),
-      title: "salary"
-    });
+    baseConfig.accountStore.add_entry(
+      "cash",
+      {
+        amount: 5000,
+        dateTime: new Date(2022, 7),
+        title: "salary"
+      }
+    );
   }
 
   test('it generates the correct OA entry', () => {
@@ -71,6 +74,26 @@ describe('apply_monthly_updates()', () => {
     expect(baseConfig.accountStore.get_current_balance("cpf_oa")).toBe(0);
     expect(baseConfig.accountStore.get_current_balance("cpf_sa")).toBe(0);
     expect(baseConfig.accountStore.get_current_balance("cpf_ma")).toBe(0);
+  });
+});
+
+describe("apply_yearly_updates()", () => {
+  test("it sets aside the Retirement Sum when a person is 55", () => {
+    const baseConfig = setUpBaseConfig();
+    baseConfig.accountStore.add_entry(
+      "cpf_sa",
+      {
+        amount: 400000,
+        dateTime: new Date(2040, 0)
+      }
+    )
+
+    const cpfSim = new CpfSim(baseConfig);
+
+    cpfSim.apply_yearly_updates({ yearStart: new Date(2045, 0) });
+
+    expect(baseConfig.accountStore.get_current_balance("cpf_sa")).toBe(32912.91);
+    expect(baseConfig.accountStore.get_current_balance("cpf_ra")).toBe(367087.09);
   });
 });
 
