@@ -3,7 +3,12 @@ import { CpfSalaryContributionSim } from "./CpfSalaryContributionSim";
 import retirementSumTransferBreakdown from "./retirementSumTransferBreakdown.js";
 
 export default class CpfSim extends BaseSim {
-  apply_yearly_updates({ yearStart }) {
+  constructor(baseConfig, userConfig) {
+    super(baseConfig, userConfig);
+    this.childSims = [new CpfSalaryContributionSim(baseConfig, userConfig)];
+  }
+
+  yearly_update_hook({ yearStart }) {
     const { accountStore, person } = this.baseConfig;
 
     if (person.age(yearStart) == 55) {
@@ -18,13 +23,5 @@ export default class CpfSim extends BaseSim {
       accountStore.add_entry("cpf_sa", { amount: -1 * amountFromSpecialAccount, dateTime: yearStart });
       accountStore.add_entry("cpf_ra", { amount: amountFromSpecialAccount + amountFromOrdinaryAccount, dateTime: yearStart });
     }
-  }
-
-  apply_monthly_updates(options) {
-    new CpfSalaryContributionSim(this.baseConfig, this.userConfig).apply_monthly_updates(options);
-  }
-
-  apply_monthly_interest(options) {
-    new CpfSalaryContributionSim(this.baseConfig, this.userConfig).apply_monthly_interest(options);
   }
 }
