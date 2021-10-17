@@ -91,8 +91,6 @@ describe('apply_monthly_updates()', () => {
 
     const matchingEntry = baseConfig.accountStore.find_entry("cash", (entry) => entry.title == TITLES.cpf_life_payout)
     expect(matchingEntry.amount).toEqual(3907); // 1.03**(2055-2021) * 1430, rounded
-    const matchingRetirementEntry = baseConfig.accountStore.find_entry("cpf_ra", (entry) => entry.title == TITLES.cpf_life_payout)
-    expect(matchingRetirementEntry.amount).toEqual(-3907);
   });
 });
 
@@ -112,7 +110,6 @@ describe("apply_yearly_updates()", () => {
     cpfSim.apply_yearly_updates({ yearStart: new Date(2045, 0) });
 
     expect(baseConfig.accountStore.get_current_balance("cpf_sa")).toBe(32912.91);
-    expect(baseConfig.accountStore.get_current_balance("cpf_ra")).toBe(367087.09);
   });
 });
 

@@ -4,7 +4,8 @@ import { CpfSalaryContributionSim, TITLES as CPF_SALARY_TITLES } from "./CpfSala
 import retirementSumTransferBreakdown from "./retirementSumTransferBreakdown.js";
 
 export const TITLES = Object.assign({
-  cpf_life_payout: "cpf_life_payout"
+  cpf_retirement_sum: "cpf_retirement_sum",
+  cpf_life_payout: "cpf_life_payout",
 }, CPF_SALARY_TITLES);
 
 export default class CpfSim extends BaseSim {
@@ -19,10 +20,8 @@ export default class CpfSim extends BaseSim {
         // TODO: allow choosing of different retirement sum types
       });
 
-      accountStore.add_entry("cpf_oa", { amount: -1 * amountFromOrdinaryAccount, dateTime: yearStart });
-      accountStore.add_entry("cpf_sa", { amount: -1 * amountFromSpecialAccount, dateTime: yearStart });
-      accountStore.add_entry("cpf_ra", { amount: amountFromSpecialAccount + amountFromOrdinaryAccount, dateTime: yearStart });
-
+      accountStore.add_entry("cpf_oa", { amount: -1 * amountFromOrdinaryAccount, dateTime: yearStart, title: TITLES.cpf_retirement_sum });
+      accountStore.add_entry("cpf_sa", { amount: -1 * amountFromSpecialAccount, dateTime: yearStart, title: TITLES.cpf_retirement_sum });
     }
   }
 
@@ -38,7 +37,6 @@ export default class CpfSim extends BaseSim {
       const cpfLifeAmount = 1.03 ** (cpfLifeStartYear - 2021) * 1430;
       const payout = roundMoney(cpfLifeAmount, { toInteger: true });
       accountStore.add_entry("cash", { amount: payout, dateTime: monthStart, title: TITLES.cpf_life_payout });
-      accountStore.add_entry("cpf_ra", { amount: -1 * payout, dateTime: monthStart, title: TITLES.cpf_life_payout });
     }
   }
 
