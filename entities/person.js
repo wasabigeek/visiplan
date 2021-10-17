@@ -16,6 +16,10 @@ export default class Person {
     return this.age(currentDate) >= this.retirementAge;
   }
 
+  get retirement_year() {
+    return this.birthDate.getFullYear() + this.retirementAge;
+  }
+
   salary(currentDate) {
     return this.salarySchedule.current(currentDate);
   }

@@ -1,6 +1,11 @@
+import { roundMoney } from "../../helpers.js";
 import BaseSim from "../BaseSim.js";
-import { CpfSalaryContributionSim } from "./CpfSalaryContributionSim";
+import { CpfSalaryContributionSim, TITLES as CPF_SALARY_TITLES } from "./CpfSalaryContributionSim";
 import retirementSumTransferBreakdown from "./retirementSumTransferBreakdown.js";
+
+export const TITLES = Object.assign({
+  cpf_life_payout: "cpf_life_payout"
+}, CPF_SALARY_TITLES);
 
 export default class CpfSim extends BaseSim {
   apply_yearly_updates({ yearStart }) {
@@ -17,11 +22,24 @@ export default class CpfSim extends BaseSim {
       accountStore.add_entry("cpf_oa", { amount: -1 * amountFromOrdinaryAccount, dateTime: yearStart });
       accountStore.add_entry("cpf_sa", { amount: -1 * amountFromSpecialAccount, dateTime: yearStart });
       accountStore.add_entry("cpf_ra", { amount: amountFromSpecialAccount + amountFromOrdinaryAccount, dateTime: yearStart });
+
     }
   }
 
   apply_monthly_updates(options) {
+    const { accountStore, person } = this.baseConfig;
+
     new CpfSalaryContributionSim(this.baseConfig, this.userConfig).apply_monthly_updates(options);
+
+    const { monthStart } = options;
+    if (person.is_retired(monthStart)) {
+      // TODO: make the cpf life payouts vary based on RA amount
+      const cpfLifeStartYear = person.retirement_year;
+      const cpfLifeAmount = 1.03 ** (cpfLifeStartYear - 2021) * 1430;
+      const payout = roundMoney(cpfLifeAmount, { toInteger: true });
+      accountStore.add_entry("cash", { amount: payout, dateTime: monthStart, title: TITLES.cpf_life_payout });
+      accountStore.add_entry("cpf_ra", { amount: -1 * payout, dateTime: monthStart, title: TITLES.cpf_life_payout });
+    }
   }
 
   apply_monthly_interest(options) {

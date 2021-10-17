@@ -1,8 +1,7 @@
 
 import { AccountStore } from "../../../entities/account.js"; // TODO: mock
 import Person from "../../../entities/person.js";
-import { TITLES } from "../CpfSalaryContributionSim.js";
-import CpfSim from "../CpfSim.js";
+import CpfSim, { TITLES } from "../CpfSim.js";
 
 const setUpBaseConfig = () => {
   const accountStore = new AccountStore();
@@ -74,6 +73,26 @@ describe('apply_monthly_updates()', () => {
     expect(baseConfig.accountStore.get_current_balance("cpf_oa")).toBe(0);
     expect(baseConfig.accountStore.get_current_balance("cpf_sa")).toBe(0);
     expect(baseConfig.accountStore.get_current_balance("cpf_ma")).toBe(0);
+  });
+
+  test("it adds CPF LIFE payout entries after a Person's retirement", () => {
+    const baseConfig = setUpBaseConfig();
+    baseConfig.accountStore.add_entry(
+      "cpf_sa",
+      {
+        amount: 400000, // ~ 367087.09 will be set aside in the RA
+        dateTime: new Date(2040, 0)
+      }
+    )
+
+    const cpfSim = new CpfSim(baseConfig);
+
+    cpfSim.apply_monthly_updates({ monthStart: new Date(2055, 7, 14) });
+
+    const matchingEntry = baseConfig.accountStore.find_entry("cash", (entry) => entry.title == TITLES.cpf_life_payout)
+    expect(matchingEntry.amount).toEqual(3907); // 1.03**(2055-2021) * 1430, rounded
+    const matchingRetirementEntry = baseConfig.accountStore.find_entry("cpf_ra", (entry) => entry.title == TITLES.cpf_life_payout)
+    expect(matchingRetirementEntry.amount).toEqual(-3907);
   });
 });
 

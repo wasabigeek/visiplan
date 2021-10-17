@@ -64,4 +64,8 @@ export class AccountStore {
 
     return newAccount;
   }
+
+  find_entry(accountIdentifier, filterFn) {
+    return this.get(accountIdentifier).entries.find(filterFn);
+  }
 }
