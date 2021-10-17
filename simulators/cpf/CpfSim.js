@@ -33,10 +33,8 @@ export default class CpfSim extends BaseSim {
     const { monthStart } = options;
     if (person.is_retired(monthStart)) {
       // TODO: make the cpf life payouts vary based on RA amount
-      const cpfLifeStartYear = person.retirement_year;
-      const cpfLifeAmount = 1.03 ** (cpfLifeStartYear - 2021) * 1430;
-      const payout = roundMoney(cpfLifeAmount, { toInteger: true });
-      accountStore.add_entry("cash", { amount: payout, dateTime: monthStart, title: TITLES.cpf_life_payout });
+      const cpfLifeAmount = 1.03 ** (person.retirement_year - 2021) * 1430;
+      accountStore.add_entry("cash", { amount: roundMoney(cpfLifeAmount, { toInteger: true }), dateTime: monthStart, title: TITLES.cpf_life_payout });
     }
   }
 
