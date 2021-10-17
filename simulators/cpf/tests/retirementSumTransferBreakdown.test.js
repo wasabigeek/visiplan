@@ -1,4 +1,5 @@
-import retirementSumTransferBreakdown, { RETIREMENT_SUM_TYPES } from "../retirementSumTransferBreakdown";
+import retirementSumTransferBreakdown from "../retirementSumTransferBreakdown";
+import { RETIREMENT_SUM_TYPES } from "../constants";
 
 test("returns 0 if there is no balance in the Ordinary and Special Account", () => {
   const result = retirementSumTransferBreakdown({

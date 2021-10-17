@@ -1,11 +1,5 @@
 import { roundMoney } from "../../helpers.js";
-
-// TODO - this should be imported
-const RETIREMENT_SUM_TYPES = {
-  basic: "basic",
-  full: "full",
-  enhanced: "enhanced"
-}
+import { RETIREMENT_SUM_TYPES } from "./constants.js";
 
 const retirementAmountByType2022 = {
   [RETIREMENT_SUM_TYPES.basic]: 93000,
