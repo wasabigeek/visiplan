@@ -1,6 +1,6 @@
 import { roundMoney } from "../../helpers.js";
 import BaseSim from "../BaseSim.js";
-import { CpfSalaryContributionSim, TITLES as CPF_SALARY_TITLES } from "./CpfSalaryContributionSim";
+import { CpfSalaryContributionSim, TITLES as CPF_SALARY_TITLES } from "./CpfSalaryContributionSim.js";
 import retirementSumTransferBreakdown from "./retirementSumTransferBreakdown.js";
 
 export const TITLES = Object.assign({
